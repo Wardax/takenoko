@@ -48,15 +48,15 @@ public class View {
 
 
         button=new Button("pioche Parcelle");
-        button.relocate(0, 550);
+        button.relocate(0, 450);
         irrigation = new Button("Ajour Irrigation");
-        irrigation.relocate(0, 700);
+        irrigation.relocate(0, 600);
         bJardinier= new Button("Action jardinier");
-        bJardinier.relocate(0, 750);
+        bJardinier.relocate(0, 650);
         bPanda=new Button("Action Panda");
-        bPanda.relocate(0,650);
+        bPanda.relocate(0,550);
         bAmenagement=new Button("Ajoute amenagement");
-        bAmenagement.relocate(0, 600);
+        bAmenagement.relocate(0, 500);
 
 
         /*plateau.getChildren().add(button);
@@ -68,7 +68,7 @@ public class View {
         creeSelectionAction();
 
 
-        scene=new Scene(plateau,1200,800);
+        scene=new Scene(plateau,1200,700);
 
 
     }
