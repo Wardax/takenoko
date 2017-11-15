@@ -1,7 +1,8 @@
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -22,17 +23,25 @@ public class View {
     Group positionPossible;
     Group selectionParcelle;
     Group selectionAmenagement;
+    Group sousMenu;
     Button button;
     Button irrigation;
     Button bJardinier;
     Button bPanda;
     Button bAmenagement;
     Group irrigationPossible;
+    MenuBar barreMenu;
+    Menu options;
+    MenuItem newPartie;
+    MenuItem rules;
+    MenuItem helper;
+    MenuItem quitter;
 
 
     public View(Model model) {
         this.model=model;
         creerScene();
+        creerSousMenu();
     }
 
     private void creerScene() {
@@ -90,13 +99,12 @@ public class View {
         positionPossible=new Group();
         for (int[] l : list){
             Polygon polygon = new Polygon();
-            polygon.getPoints().addAll(new Double[]{
-                    50., 0.,
+            polygon.getPoints().addAll(50., 0.,
                     0., 30.,
                     0., 80.,
                     50., 110.,
                     100., 80.,
-                    100., 30.});
+                    100., 30.);
             positionPossible.getChildren().add(polygon);
             polygon.relocate(l[0], l[1]);
         }
@@ -252,6 +260,25 @@ public class View {
         selectionAction.relocate(900, 200);
 
 
+    }
+
+    public void creerSousMenu(){
+        sousMenu = new Group();
+        barreMenu = new MenuBar();
+        barreMenu.prefWidthProperty().bind(scene.widthProperty());
+
+        options = new Menu("Options");
+        newPartie = new MenuItem("Nouvelle Partie");
+        rules = new MenuItem("Règles");
+        helper = new MenuItem("Aides");
+        quitter = new MenuItem("Quitter");
+
+
+        options.getItems().addAll(newPartie, new SeparatorMenuItem(), rules, new SeparatorMenuItem(), helper, new SeparatorMenuItem(), quitter);
+        barreMenu.getMenus().addAll(options);
+
+        sousMenu.getChildren().add(barreMenu);
+        plateau.getChildren().add(sousMenu);
     }
 
 

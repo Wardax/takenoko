@@ -1,10 +1,16 @@
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.util.Queue;
 
@@ -31,7 +37,8 @@ public class Controller {
 
         activeBouttonsActions();
 
-
+        actionQuitter();
+        actionHelper();
     }
 
     private void activeBouttonsActions() {
@@ -236,6 +243,31 @@ public class Controller {
                     });
                     i++;
                 }
+            }
+        });
+    }
+
+    private void actionQuitter(){
+        view.quitter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Platform.exit();
+            }
+        });
+    }
+
+    private void actionHelper(){
+        view.helper.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage fenetreHelp = new Stage();
+                Group group = new Group();
+                Scene scene = new Scene(group,400,400);
+                String aides = "";
+                Label texte = new Label(aides);
+                group.getChildren().add(texte);
+                fenetreHelp.setScene(scene);
+                fenetreHelp.show();
             }
         });
     }
