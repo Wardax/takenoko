@@ -5,8 +5,8 @@ import java.util.List;
  * Created by Guillaume on 17/10/2017.
  */
 public class Plateau {
-    public static int width=1000;
-    public static int height=800;
+    public static int width=900;
+    public static int height=700;
     private Etang etang;
     private List<Parcelle> parcelles;
     private List<LienParcelle> lienParcelles;
@@ -90,5 +90,13 @@ public class Plateau {
 
     public Panda getPanda() {
         return panda;
+    }
+
+    public List<Parcelle> getParcellesIrriguees() {
+        List<Parcelle> list = new ArrayList<Parcelle>();
+        for (Parcelle p : parcelles){
+            if (p.isIrriguee()) list.add(p);
+        }
+        return list;
     }
 }

@@ -1,10 +1,10 @@
+import java.util.Random;
+
 /**
  * Created by Guillaume on 16/10/2017.
  */
 public class Joueur {
-    private int action1;
-    private int action2;
-    private int actionBonus;
+    private int[] actions;
     private int bonusDe;
     private int[] bambous;
     private int[] amenagements;
@@ -13,31 +13,26 @@ public class Joueur {
     public Joueur() {
         bambous=new int[3];
         amenagements=new int[3];
+        actions=new int[3];
         irrigation=0;
-        action1=0;
-        action2=0;
-        actionBonus=0;
         bonusDe=0;
         for (int i=0; i<3; i++){
             bambous[i]=0;
             amenagements[i]=0;
+            actions[i]=0;
         }
     }
 
-    public int getAction1() {
-        return action1;
+    public int[] getActions() {
+        return actions;
     }
 
-    public void setAction1(int action1) {
-        this.action1 = action1;
+    public int[] getBambous() {
+        return bambous;
     }
 
-    public int getAction2() {
-        return action2;
-    }
-
-    public void setAction2(int action2) {
-        this.action2 = action2;
+    public int[] getAmenagements() {
+        return amenagements;
     }
 
     public int getBonusDe() {
@@ -46,5 +41,23 @@ public class Joueur {
 
     public void setBonusDe(int bonusDe) {
         this.bonusDe = bonusDe;
+    }
+
+    public void addBambou(int color) {
+        bambous[color]+=1;
+    }
+
+    public void lanceDe(){
+        Random random=new Random();
+        bonusDe=random.nextInt(5)+1;
+
+    }
+
+    public int getIrrigation() {
+        return irrigation;
+    }
+
+    public void setIrrigation(int irrigation) {
+        this.irrigation = irrigation;
     }
 }

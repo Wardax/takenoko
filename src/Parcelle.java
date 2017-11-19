@@ -5,6 +5,7 @@ import java.util.List;
  * Created by Guillaume on 16/10/2017.
  */
 public class Parcelle {
+    // 0 vert, 1 rose, 2 jaune
     private int color;
     private LienParcelle[] lienParcelles;
     private int nbBambou;
@@ -16,7 +17,7 @@ public class Parcelle {
     static int height=55;
 
     public Parcelle(int couleurParcelle, int posX, int posY) {
-        this.color = couleurParcelle;
+        color = couleurParcelle;
         lienParcelles=new LienParcelle[6];
         nbBambou=0;
         irriguee=false;

@@ -2,7 +2,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -23,19 +24,23 @@ public class View {
     Group positionPossible;
     Group selectionParcelle;
     Group selectionAmenagement;
-    Group sousMenu;
-    Button button;
+    Group irrigationPossible;
+    Button bParcelle;
     Button irrigation;
     Button bJardinier;
     Button bPanda;
-    Button bAmenagement;
-    Group irrigationPossible;
+    Button bNuage;
+    Button bPluie;
+    Button bOrage;
+    ImageView de;
+
     MenuBar barreMenu;
     Menu options;
     MenuItem newPartie;
     MenuItem rules;
     MenuItem helper;
     MenuItem quitter;
+    Group sousMenu;
 
 
     public View(Model model) {
@@ -56,23 +61,26 @@ public class View {
         etang.addPanda(panda);
 
 
-        button=new Button("pioche Parcelle");
-        button.relocate(0, 450);
-        irrigation = new Button("Ajour Irrigation");
+    bParcelle =new Button("Action Parcelle");
+        bParcelle.relocate(0, 450);
+        irrigation = new Button("Action Irrigation");
         irrigation.relocate(0, 600);
         bJardinier= new Button("Action jardinier");
         bJardinier.relocate(0, 650);
         bPanda=new Button("Action Panda");
         bPanda.relocate(0,550);
-        bAmenagement=new Button("Ajoute amenagement");
-        bAmenagement.relocate(0, 500);
+        bNuage =new Button("Action nuage");
+        bNuage.relocate(0, 150);
+        bPluie=new Button("Action Pluie");
+        bPluie.relocate(0,50);
+        bOrage=new Button("Action Orage");
+        bOrage.relocate(0,100);
 
-
-        /*plateau.getChildren().add(button);
+        /*plateau.getChildren().add(bParcelle);
         plateau.getChildren().add(irrigation);
         plateau.getChildren().add(bJardinier);
         plateau.getChildren().add(bPanda);
-        plateau.getChildren().add(bAmenagement);*/
+        plateau.getChildren().add(bNuage);*/
 
         creeSelectionAction();
 
@@ -83,11 +91,13 @@ public class View {
     }
 
     public void enleveBouttonActions(){
-        plateau.getChildren().remove(button);
+        plateau.getChildren().remove(bParcelle);
         plateau.getChildren().remove(irrigation);
         plateau.getChildren().remove(bJardinier);
         plateau.getChildren().remove(bPanda);
-        plateau.getChildren().remove(bAmenagement);
+        plateau.getChildren().remove(bNuage);
+        plateau.getChildren().remove(bPluie);
+        plateau.getChildren().remove(bOrage);
     }
 
     public Scene getScene() {
@@ -122,6 +132,7 @@ public class View {
             if (i==1) vp.relocate(0, 100);
             if (i==2) vp.relocate(200, 100);
         }
+        selectionParcelle.relocate(0,30);
         plateau.getChildren().add(selectionParcelle);
     }
 
@@ -192,6 +203,7 @@ public class View {
             Circle amenagement= new Circle(50, 150, 30, Color.BLUE); // amenagement irriguation
             selectionAmenagement.getChildren().add(amenagement);
         }
+        selectionAmenagement.relocate(0,30);
         plateau.getChildren().add(selectionAmenagement);
 
     }
@@ -202,12 +214,17 @@ public class View {
 
         /* place dans la liste du groupe :
         * 0 -> le bouton pour valider les actions
-        * 1 à 4 -> les cercles de selections
-        * 5 à 8 -> les rectangles */
+        * 1 -> bouton pour reset les actions
+        * 2 à 5 -> les cercles de selections
+        * 6 à 9 -> les rectangles */
 
         Button validButton=new Button("Valider");
-        validButton.relocate(85, 100);
+        validButton.relocate(0, 100);
         selectionAction.getChildren().add(validButton);
+
+        Button resetButton=new Button("Reset");
+        resetButton.relocate(0, 130);
+        selectionAction.getChildren().add(resetButton);
 
 
         Circle circlePacelle = new Circle(20, 65, 15);
@@ -255,6 +272,9 @@ public class View {
         imageActionPanda.relocate(180,0);
 
 
+        de=new ImageView();
+        selectionAction.getChildren().add(de);
+        de.relocate(150,100);
 
         plateau.getChildren().add(selectionAction);
         selectionAction.relocate(900, 200);
@@ -283,7 +303,7 @@ public class View {
 
 
     public void ajouteBouttonParcelle() {
-        plateau.getChildren().add(button);
+        plateau.getChildren().add(bParcelle);
     }
 
     public void ajouteBouttonIrrigation() {
@@ -296,5 +316,20 @@ public class View {
 
     public void ajouteBouttonPanda() {
         plateau.getChildren().add(bPanda);
+    }
+
+
+    public void ajouteBouttonPluie() {
+        plateau.getChildren().add(bPluie);
+    }
+    public void ajouteBouttonOrage() {
+        plateau.getChildren().add(bOrage);
+    }
+    public void ajouteBouttonNuage() {
+        plateau.getChildren().add(bNuage);
+    }
+
+    public void afficheDe(int bonusDe) {
+        de.setImage(new Image("image/faceDe"+bonusDe+".png"));
     }
 }

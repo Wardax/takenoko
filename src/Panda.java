@@ -23,15 +23,18 @@ public class Panda {
         return deplacementsPossible;
     }
 
-    public void deplacement(Parcelle p) {
+    public void deplacement(Parcelle p, Joueur j) {
         position=p;
         if (position.getAmenagement()!=2){
-            mangeBambou();
+            mangeBambou(j);
         }
     }
 
-    private void mangeBambou() {
-        if (position.getNbBambou()>0) position.setNbBambou(position.getNbBambou()-1);
+    private void mangeBambou(Joueur j) {
+        if (position.getNbBambou()>0) {
+            position.setNbBambou(position.getNbBambou()-1);
+            j.addBambou(position.getColor());
+        }
     }
 
     public Parcelle getPosition() {
