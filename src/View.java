@@ -86,8 +86,6 @@ public class View {
 
 
         scene=new Scene(plateau,1200,700);
-
-
     }
 
     public void enleveBouttonActions(){
