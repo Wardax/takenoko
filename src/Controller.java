@@ -46,6 +46,7 @@ public class Controller {
     private void appliqueSelectionAction(){
         j=model.getJoueurActuel();
 
+        System.out.println(j.getActions()[2]);
         if (j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) {
             activeSelectionAction();
             //activeBouttonFinDeTour();
@@ -257,8 +258,7 @@ public class Controller {
         view.irrigation.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                supprimeAction(2);
-
+                supprimeAction(0);
                 view.afficheIrrigationPossible();
                 for (Node n : view.irrigationPossible.getChildren()){
                     n.setOnMouseClicked(mouseEvent -> {
@@ -365,6 +365,7 @@ public class Controller {
                                 vp.setOnMouseClicked(mouseEvent -> {
                                     vp.getP().pousseBambou();
                                     vp.actualiseNbBambou();
+                                    desactiveMouseEvent();
                                     appliqueSelectionAction();
                                 });
                             }

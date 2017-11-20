@@ -223,6 +223,7 @@ public class View {
         Button resetButton=new Button("Reset");
         resetButton.relocate(0, 130);
         selectionAction.getChildren().add(resetButton);
+        resetButton.setVisible(false);
 
 
         Circle circlePacelle = new Circle(20, 65, 15);
@@ -301,18 +302,30 @@ public class View {
 
 
     public void ajouteBouttonParcelle() {
+        for (Node n : plateau.getChildren()){
+            if (n==bParcelle) return;
+        }
         plateau.getChildren().add(bParcelle);
     }
 
     public void ajouteBouttonIrrigation() {
+        for (Node n : plateau.getChildren()){
+            if (n==irrigation) return;
+        }
         plateau.getChildren().add(irrigation);
     }
 
     public void ajouteBouttonJardinier() {
+        for (Node n : plateau.getChildren()){
+            if (n==bJardinier) return;
+        }
         plateau.getChildren().add(bJardinier);
     }
 
     public void ajouteBouttonPanda() {
+        for (Node n : plateau.getChildren()){
+            if (n==bPanda) return;
+        }
         plateau.getChildren().add(bPanda);
     }
 
