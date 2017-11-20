@@ -131,7 +131,6 @@ public class Controller {
             }
 
         }
-
         ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
