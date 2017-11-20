@@ -127,18 +127,18 @@ public class Controller {
                     c.setFill(Color.MIDNIGHTBLUE);
                     j.getActions()[0]=action;
                     j.getActions()[1]=action;
-
-                    ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            appliqueSelectionAction();
-                        }
-                    });
-
                 });
             }
 
         }
+
+        ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                appliqueSelectionAction();
+            }
+        });
+
     }
 
 
