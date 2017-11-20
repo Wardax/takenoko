@@ -223,7 +223,6 @@ public class View {
         Button resetButton=new Button("Reset");
         resetButton.relocate(0, 130);
         selectionAction.getChildren().add(resetButton);
-        resetButton.setVisible(false);
 
 
         Circle circlePacelle = new Circle(20, 65, 15);
