@@ -6,20 +6,24 @@ import java.util.*;
 public class Model {
     private Joueur[] joueurs;
     private Queue<Parcelle> pileParcelle;
+    private Queue<Objectif> pileObjectifsPanda;
+    private Queue<Objectif> pileObjectifsJardinier;
+    private Queue<Objectif> pileObjectifsParcelle;
     private int[] amenagements;
     private Plateau plateau;
     private Joueur joueurActuel;
 
     public Model() {
         int nbJoeurs=1;
+        plateau=new Plateau();
+        creePileParcelle();
+        creePilesObjectfs();
+        amenagements=new int[]{3,3,3};
         joueurs= new Joueur[nbJoeurs];
         for (int i=0; i<nbJoeurs; i++){
             joueurs[i]=new Joueur();
         }
         joueurActuel=joueurs[0];
-        plateau=new Plateau();
-        creePileParcelle();
-        amenagements=new int[]{3,3,3};
     }
 
     private void creePileParcelle() {
@@ -30,6 +34,32 @@ public class Model {
         Collections.shuffle(pileParcelle);
         this.pileParcelle=new ArrayDeque<Parcelle>();
         this.pileParcelle.addAll(pileParcelle);
+    }
+
+    private void creePilesObjectfs(){
+        List<Objectif> pileObjectifs = new ArrayList<Objectif>();
+        for (int i=0; i<5; i++) pileObjectifs.add(new Objectif(1));
+        for (int i=0; i<4; i++) pileObjectifs.add(new Objectif(2));
+        for (int i=0; i<3; i++) {
+            pileObjectifs.add(new Objectif(3));
+            pileObjectifs.add(new Objectif(4));
+        }
+        Collections.shuffle(pileObjectifs);
+        pileObjectifsPanda=new ArrayDeque<Objectif>();
+        pileObjectifsPanda.addAll(pileObjectifs);
+        pileObjectifs.clear();
+
+        for (int i=5; i<20; i++) pileObjectifs.add(new Objectif(i));
+        Collections.shuffle(pileObjectifs);
+        pileObjectifsJardinier=new ArrayDeque<Objectif>();
+        pileObjectifsJardinier.addAll(pileObjectifs);
+        pileObjectifs.clear();
+
+        for (int i=20; i<35; i++) pileObjectifs.add(new Objectif(i));
+        Collections.shuffle(pileObjectifs);
+        pileObjectifsParcelle=new ArrayDeque<Objectif>();
+        pileObjectifsParcelle.addAll(pileObjectifs);
+
     }
 
     public Plateau getPlateau() {

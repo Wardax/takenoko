@@ -9,6 +9,8 @@ public class Joueur {
     private int[] bambous;
     private int[] amenagements;
     private int irrigation;
+    private int nbPoints;
+    private Objectif[] objectifs;
 
     public Joueur() {
         bambous=new int[3];
@@ -21,6 +23,8 @@ public class Joueur {
             amenagements[i]=0;
             actions[i]=0;
         }
+        nbPoints=0;
+        objectifs=new Objectif[5];
     }
 
     public int[] getActions() {
