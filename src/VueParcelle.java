@@ -1,12 +1,13 @@
 
 
 import javafx.scene.Group;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
 
 /**
  * Created by Guillaume on 06/11/2017.
@@ -72,14 +73,14 @@ public class VueParcelle extends Group {
         return nombreBambou;
     }
 
-    public void addJardinier(Rectangle jardinier) {
-        this.getChildren().add(jardinier);
-        jardinier.relocate(20, 60);
+    public void addJardinier(ImageView jardinier) {
+        getChildren().add(jardinier);
+        jardinier.relocate(10, 40);
     }
 
-    public void addPanda(Rectangle panda) {
-        this.getChildren().add(panda);
-        panda.relocate(60, 60);
+    public void addPanda(ImageView panda) {
+        getChildren().add(panda);
+        panda.relocate(55, 50);
     }
 
     public Paint getCouleurAmenagement() {

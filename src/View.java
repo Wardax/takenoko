@@ -17,8 +17,8 @@ import java.util.List;
 public class View {
     private Model model;
     private Scene scene;
-    private Rectangle jardinier;
-    private Rectangle panda;
+    private ImageView jardinier;
+    private ImageView panda;
     Group selectionAction;
     Group plateau;
     Group positionPossible;
@@ -62,9 +62,11 @@ public class View {
         VueParcelle etang=new VueParcelle(e);
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
-        jardinier=new Rectangle(20,20, Color.RED);
+        jardinier=new ImageView("image/Jardinier.PNG");
+        jardinier.setPreserveRatio(true);
+        jardinier.setFitHeight(40);
         etang.addJardinier(jardinier);
-        panda=new Rectangle(20,20);
+        panda=new ImageView("image/tetePanda.png");
         etang.addPanda(panda);
 
 
