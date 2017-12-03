@@ -5,6 +5,7 @@ import java.util.*;
  */
 public class Model {
     private Joueur[] joueurs;
+    private int nbJoueurs;
     private Queue<Parcelle> pileParcelle;
     private Queue<Objectif> pileObjectifsPanda;
     private Queue<Objectif> pileObjectifsJardinier;
@@ -14,14 +15,17 @@ public class Model {
     private Joueur joueurActuel;
 
     public Model() {
-        int nbJoeurs=1;
+        nbJoueurs=4;
         plateau=new Plateau();
         creePileParcelle();
         creePilesObjectfs();
         amenagements=new int[]{3,3,3};
-        joueurs= new Joueur[nbJoeurs];
-        for (int i=0; i<nbJoeurs; i++){
-            joueurs[i]=new Joueur();
+        joueurs= new Joueur[nbJoueurs];
+        for (int i=0; i<nbJoueurs; i++){
+            joueurs[i]=new Joueur(i);
+            joueurs[i].piocheObjectif(pileObjectifsPanda);
+            joueurs[i].piocheObjectif(pileObjectifsJardinier);
+            joueurs[i].piocheObjectif(pileObjectifsParcelle);
         }
         joueurActuel=joueurs[0];
     }
@@ -76,5 +80,29 @@ public class Model {
 
     public Joueur getJoueurActuel() {
         return joueurActuel;
+    }
+
+    public int getNbJoueurs() {
+        return nbJoueurs;
+    }
+
+    public Joueur[] getJoueurs() {
+        return joueurs;
+    }
+
+    public Queue<Objectif> getPileObjectifsPanda() {
+        return pileObjectifsPanda;
+    }
+
+    public Queue<Objectif> getPileObjectifsJardinier() {
+        return pileObjectifsJardinier;
+    }
+
+    public Queue<Objectif> getPileObjectifsParcelle() {
+        return pileObjectifsParcelle;
+    }
+
+    public void nextJoueur() {
+        joueurActuel=joueurs[(joueurActuel.getNumJoueur()+1)%joueurs.length];
     }
 }

@@ -5,6 +5,7 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -37,6 +38,9 @@ public class VueParcelle extends Group {
         this.getChildren().add(polygon);
 
         nombreBambou= new Text(45,55,""+p.getNbBambou());
+
+        nombreBambou.setFont(Font.font ("Verdana", 20));
+        nombreBambou.setFill(Color.DARKBLUE);
         this.getChildren().add(nombreBambou);
 
         if (p.getAmenagement()!=0) {

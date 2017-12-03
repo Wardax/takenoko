@@ -1,3 +1,5 @@
+import javafx.scene.image.Image;
+
 /**
  * Created by Guillaume on 26/11/2017.
  */
@@ -7,26 +9,26 @@ public class Objectif {
 
     public Objectif(int type) {
         this.type = type;
-        this.imageUrl = "objectif"+type+".png";
+        this.imageUrl = "image/objectif"+type+".PNG";
     }
 
     public int appliqueObjectif(Joueur j, Plateau p){
         switch (type){
             case 1:
-                if (j.getBambous()[0]>=3){
-                    j.getBambous()[0]-=3;
+                if (j.getBambous()[0]>=2){
+                    j.getBambous()[0]-=2;
                     return 3;
                 }
                 break;
             case 2:
-                if (j.getBambous()[2]>=3){
-                    j.getBambous()[2]-=3;
+                if (j.getBambous()[2]>=2){
+                    j.getBambous()[2]-=2;
                     return 4;
                 }
                 break;
             case 3:
-                if (j.getBambous()[1]>=3){
-                    j.getBambous()[1]-=3;
+                if (j.getBambous()[1]>=2){
+                    j.getBambous()[1]-=2;
                     return 5;
                 }
                 break;
@@ -92,7 +94,7 @@ public class Objectif {
                     if (parcelle.getColor()==0){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+1%6].getColor()==0 ) return 2;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==0 ) return 2;
                         }
                     }
                 }
@@ -103,7 +105,7 @@ public class Objectif {
                     if (parcelle.getColor()==0){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+1%6].getColor()==0 && pAdj[i+2%6].getColor()==0) return 3;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==0 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==0) return 3;
                         }
                     }
                 }
@@ -114,7 +116,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==1 && pAdj[i+1%6].getColor()==1 && pAdj[i+2%6].getColor()==2) return 5;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==1 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==1 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==2) return 5;
                         }
                     }
                 }
@@ -125,7 +127,7 @@ public class Objectif {
                     if (parcelle.getColor()==1){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+1%6].getColor()==0 && pAdj[i+2%6].getColor()==1) return 4;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==0 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==1) return 4;
                         }
                     }
                 }
@@ -136,7 +138,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+1%6].getColor()==0 && pAdj[i+2%6].getColor()==2) return 3;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==0 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==2) return 3;
                         }
                     }
                 }
@@ -147,7 +149,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==2 && pAdj[i+3%6].getColor()==2) return 3;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==2 && pAdj[(i+3)%6]!=null && pAdj[(i+3)%6].getColor()==2) return 3;
                         }
                     }
                 }
@@ -158,7 +160,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==2 && pAdj[i+1%6].getColor()==2 && pAdj[i+2%6].getColor()==2) return 4;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==2 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==2 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==2) return 4;
                         }
                     }
                 }
@@ -169,7 +171,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==2 && pAdj[i+2%6].getColor()==2) return 3;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==2 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==2) return 3;
                         }
                     }
                 }
@@ -180,7 +182,7 @@ public class Objectif {
                     if (parcelle.getColor()==0){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+3%6].getColor()==0) return 2;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+3)%6]!=null && pAdj[(i+3)%6].getColor()==0) return 2;
                         }
                     }
                 }
@@ -191,7 +193,7 @@ public class Objectif {
                     if (parcelle.getColor()==0){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==0 && pAdj[i+2%6].getColor()==0) return 2;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==0 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==0) return 2;
                         }
                     }
                 }
@@ -202,7 +204,7 @@ public class Objectif {
                     if (parcelle.getColor()==1){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==1 && pAdj[i+2%6].getColor()==1) return 4;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==1 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==1) return 4;
                         }
                     }
                 }
@@ -213,7 +215,7 @@ public class Objectif {
                     if (parcelle.getColor()==1){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==1 && pAdj[i+1%6].getColor()==1 ) return 4;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==1 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==1 ) return 4;
                         }
                     }
                 }
@@ -224,7 +226,7 @@ public class Objectif {
                     if (parcelle.getColor()==1){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==1 && pAdj[i+1%6].getColor()==1 && pAdj[i+2%6].getColor()==1) return 5;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==1 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==1 && pAdj[(i+2)%6]!=null && pAdj[(i+2)%6].getColor()==1) return 5;
                         }
                     }
                 }
@@ -235,7 +237,7 @@ public class Objectif {
                     if (parcelle.getColor()==1){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==1 && pAdj[i+3%6].getColor()==2) return 4;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==1 && pAdj[(i+3)%6]!=null && pAdj[(i+3)%6].getColor()==2) return 4;
                         }
                     }
                 }
@@ -246,7 +248,7 @@ public class Objectif {
                     if (parcelle.getColor()==2){
                         for (int i=0; i<6; i++){
                             Parcelle[] pAdj=parcelle.parcellesAdjacentes();
-                            if (pAdj[i].getColor()==2 && pAdj[i+1%6].getColor()==2) return 3;
+                            if (pAdj[i]!=null && pAdj[i].getColor()==2 && pAdj[(i+1)%6]!=null && pAdj[(i+1)%6].getColor()==2) return 3;
                         }
                     }
                 }
@@ -275,5 +277,9 @@ public class Objectif {
         }
         if (n>=nb) return true;
         return false;
+    }
+
+    public String  getImageUrl() {
+        return imageUrl;
     }
 }

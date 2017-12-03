@@ -12,6 +12,7 @@ public class runPartie extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.out.println(3+4%2);
         Model model = new Model();
         View view = new View(model);
         Controller controller=new Controller(view,model);

@@ -34,22 +34,24 @@ public class Controller {
         actionJardinier();
         actionPanda();
         actionParcelle();
+        actionObjectifs();
         actionPluie();
         actionOrage();
+        actionVerifObjectifs();
         activeSelectionAction();
 
 
         actionQuitter();
         actionHelper();
     }
-    
+
+
+
     private void appliqueSelectionAction(){
         j=model.getJoueurActuel();
 
-        System.out.println(j.getActions()[2]);
         if (j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) {
-            activeSelectionAction();
-            //activeBouttonFinDeTour();
+            activeBouttonFinDeTour();
             return;
         }
 
@@ -61,11 +63,12 @@ public class Controller {
             }
             if (j.getActions()[i]==3) view.ajouteBouttonJardinier();
             if (j.getActions()[i]==4) view.ajouteBouttonPanda();
+            if (j.getActions()[i]==5) view.ajouteBouttonObjectifs();
         }
 
-        if (j.getActions()[2] == 5) view.ajouteBouttonPluie();
-        if (j.getActions()[2] == 6) view.ajouteBouttonOrage();
-        if (j.getActions()[2] == 7) view.ajouteBouttonNuage();
+        if (j.getActions()[2] == 6) view.ajouteBouttonPluie();
+        if (j.getActions()[2] == 7) view.ajouteBouttonOrage();
+        if (j.getActions()[2] == 8) view.ajouteBouttonNuage();
 
         if (j.getIrrigation()>0) view.ajouteBouttonIrrigation();
 
@@ -76,9 +79,9 @@ public class Controller {
         j.lanceDe();
         view.afficheDe(j.getBonusDe());
         if (j.getBonusDe()!=0) {
-            if (j.getBonusDe() == 2) j.getActions()[2] = 5;
-            if (j.getBonusDe() == 4) j.getActions()[2] = 6;
-            if (j.getBonusDe() == 5) j.getActions()[2] = 7;
+            if (j.getBonusDe() == 2) j.getActions()[2] = 6;
+            if (j.getBonusDe() == 4) j.getActions()[2] = 7;
+            if (j.getBonusDe() == 5) j.getActions()[2] = 8;
             if (j.getBonusDe() == 0) appliqueSelectionAction();
             if (j.getBonusDe() == 1) actionSoleil();
             if (j.getBonusDe() == 3) actionVent();
@@ -89,14 +92,14 @@ public class Controller {
 
     private void actionSoleil() {
         Joueur j=model.getJoueurActuel();
-        for (int i=2; i<6; i++){
+        for (int i=2; i<7; i++){
             if (i-1!=j.getActions()[0] && i-1!=j.getActions()[1]){
                 final int action=i-1;
                 Circle c = ((Circle)view.selectionAction.getChildren().get(i));
                 c.setOnMouseClicked(mouseEvent -> {
                     c.setFill(Color.TURQUOISE);
                     j.getActions()[2]=action;
-                    for (int k=2; k<6; k++) {
+                    for (int k=2; k<7; k++) {
                         view.selectionAction.getChildren().get(k).setOnMouseClicked(null);
                     }
                     ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
@@ -114,12 +117,12 @@ public class Controller {
 
     private void actionVent(){
         Joueur j=model.getJoueurActuel();
-        for (int i=2; i<6; i++){
+        for (int i=2; i<7; i++){
             if (i-1==j.getActions()[0] || i-1==j.getActions()[1]){
                 final int action=i-1;
                 Circle c = ((Circle)view.selectionAction.getChildren().get(i));
                 c.setOnMouseClicked(mouseEvent -> {
-                    for (int k=2; k<6; k++) {
+                    for (int k=2; k<7; k++) {
                         Circle c2 = ((Circle)view.selectionAction.getChildren().get(k));
                         c2.setOnMouseClicked(null);
                         c2.setFill(Color.TRANSPARENT);
@@ -143,14 +146,22 @@ public class Controller {
 
 
     private void activeBouttonFinDeTour() {
-       // model.nextJoueur();
-      //  activeSelectionAction();
-    }
+        view.bFinTour.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
 
+                model.nextJoueur();
+                activeSelectionAction();
+                view.enleveBouttonActions();
+                view.afficheObjectifs();
+                view.bFinTour.setOnAction(null);
+            }
+        });
+    }
 
     private void activeSelectionAction() {
         Joueur j=model.getJoueurActuel();
-        for (int i=2; i<6; i++){
+        for (int i=2; i<7; i++){
             final int action=i-1;
             Circle c = ((Circle)view.selectionAction.getChildren().get(i));
             c.setFill(Color.TRANSPARENT);
@@ -160,7 +171,7 @@ public class Controller {
                 if (j.getActions()[0]==0) j.getActions()[0]=action;
                 else j.getActions()[1]=action;
                 if (j.getActions()[0]!=0 && j.getActions()[1]!=0){
-                    for (int k=2; k<6; k++) {
+                    for (int k=2; k<7; k++) {
                         view.selectionAction.getChildren().get(k).setOnMouseClicked(null);
                     }
                     ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
@@ -190,7 +201,7 @@ public class Controller {
         }
     }
 
-    // affiche les positions possible pour la parcelle et lorsqu'un position est selectionné ajoute la parcelle a cette endroit
+    // affiche les positions possible pour la parcelle et lorsqu'une position est selectionné ajoute la parcelle a cette endroit
     private void demandePos(Parcelle parcelle) {
         view.affichePosPossible();
         for (Node n : view.positionPossible.getChildren()){
@@ -269,9 +280,8 @@ public class Controller {
                             }
                         }
                         view.plateau.getChildren().remove(view.irrigationPossible);
+                        model.getJoueurActuel().setIrrigation(j.getIrrigation()-1);
                         view.afficheIrrigation(n);
-                        Joueur j=model.getJoueurActuel();
-                        j.setIrrigation(j.getIrrigation()-1);
                         appliqueSelectionAction();
                     });
                 }
@@ -331,11 +341,38 @@ public class Controller {
     }
 
 
+    private void actionObjectifs() {
+        view.bObjectifs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                supprimeAction(5);
+
+                view.affichageSelectionObjectifs();
+                int i=1;
+                for (Node n : view.selectionObjectifs.getChildren()){
+                    final int pile = i;
+                    n.setOnMouseClicked(mouseEvent -> {
+                        view.plateau.getChildren().remove(view.selectionAmenagement);
+                        if (pile==1)  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsPanda());
+                        else if (pile==2) model.getJoueurActuel().piocheObjectif(model.getPileObjectifsJardinier());
+                        else  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsParcelle());
+                        view.actualiseAjoutObjectif();
+                        appliqueSelectionAction();
+                    });
+                    i++;
+                }
+            }
+        });
+    }
+
+
+
+
     private void actionAmenagement(){
         view.bNuage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                supprimeAction(7);
+                supprimeAction(8);
 
                 view.affichageSelectionAmenagement();
                 int i=1;
@@ -355,7 +392,7 @@ public class Controller {
         view.bPluie.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                supprimeAction(5);
+                supprimeAction(6);
 
                 for (Node n : view.plateau.getChildren()){
                     if (n instanceof VueParcelle){
@@ -381,7 +418,7 @@ public class Controller {
         view.bOrage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                supprimeAction(6);
+                supprimeAction(7);
                 Panda panda=model.getPlateau().getPanda();
 
                 for (Node n : view.plateau.getChildren()){
@@ -396,6 +433,21 @@ public class Controller {
                             }
                     }
                 }
+            }
+        });
+    }
+
+
+
+    private void actionVerifObjectifs() {
+        view.bVerifObjectifs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                model.getJoueurActuel().verificationObjectifs(model.getPlateau());
+                VueJoueur vj=view.vueJoueurs[model.getJoueurActuel().getNumJoueur()];
+                vj.actualiseVueJoueur();
+                vj.actualiseObjectifs();
+                view.afficheObjectifs();
             }
         });
     }
