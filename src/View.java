@@ -62,7 +62,7 @@ public class View {
         VueParcelle etang=new VueParcelle(e);
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
-        jardinier=new ImageView("image/Jardinier.PNG");
+        jardinier=new ImageView("image/Jardinier_V2.PNG");
         jardinier.setPreserveRatio(true);
         jardinier.setFitHeight(40);
         etang.addJardinier(jardinier);
@@ -223,15 +223,24 @@ public class View {
         int[] amenagements= model.getAmenagements();
         selectionAmenagement=new Group();
         if (amenagements[0]>0) {
-            Circle amenagement= new Circle(50, 50, 30, Color.BROWN); // amenagement engrais
+            ImageView amenagement= new ImageView("image/Amenagement_jardinier.PNG"); // amenagement engrais
+            amenagement.setPreserveRatio(true);
+            amenagement.setFitHeight(50);
+            amenagement.relocate(50, 0);
             selectionAmenagement.getChildren().add(amenagement);
         }
         if (amenagements[1]>0) {
-            Circle amenagement= new Circle(150, 50, 30, Color.RED); // amenagement enclos
+            ImageView amenagement= new ImageView("image/Amenagement_cloture.PNG"); // amenagement enclos
+            amenagement.setPreserveRatio(true);
+            amenagement.setFitHeight(50);
+            amenagement.relocate(20, 50);
             selectionAmenagement.getChildren().add(amenagement);
         }
         if (amenagements[2]>0) {
-            Circle amenagement= new Circle(50, 150, 30, Color.BLUE); // amenagement irriguation
+            ImageView amenagement= new ImageView("image/Amenagement_irrigation.PNG"); // amenagement irriguation
+            amenagement.setPreserveRatio(true);
+            amenagement.setFitHeight(50);
+            amenagement.relocate(80, 50);
             selectionAmenagement.getChildren().add(amenagement);
         }
         selectionAmenagement.relocate(0,30);
@@ -299,7 +308,7 @@ public class View {
         ImageView imageActionIrrigation =new ImageView("image/irrigation120.png");
         imageActionIrrigation.setPreserveRatio(true);
         imageActionIrrigation.setFitWidth(40);
-        ImageView imageActionJardinier =new ImageView("image/Jardinier.PNG");
+        ImageView imageActionJardinier =new ImageView("image/Jardinier_V2.PNG");
         imageActionJardinier.setPreserveRatio(true);
         imageActionJardinier.setFitHeight(40);
         ImageView imageActionPanda =new ImageView("image/bebepanda.png");

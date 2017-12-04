@@ -16,7 +16,7 @@ public class VueParcelle extends Group {
 
     private Parcelle p;
     private Text nombreBambou;
-    private Circle amenagement;
+    private ImageView amenagement;
 
     public VueParcelle(Parcelle p) {
         super();
@@ -36,21 +36,24 @@ public class VueParcelle extends Group {
             polygon.setFill (gradient);
         }
         else  polygon.setFill(transformeColor(p.getColor()));
-        this.getChildren().add(polygon);
+        getChildren().add(polygon);
 
         nombreBambou= new Text(45,55,""+p.getNbBambou());
 
         nombreBambou.setFont(Font.font ("Verdana", 20));
         nombreBambou.setFill(Color.DARKBLUE);
-        this.getChildren().add(nombreBambou);
+        getChildren().add(nombreBambou);
 
         if (p.getAmenagement()!=0) {
-            amenagement=new Circle(50,20,10, getCouleurAmenagement());
-            this.getChildren().add(amenagement);
+            amenagement=new ImageView("image/"+getCouleurAmenagement());
+            amenagement.setPreserveRatio(true);
+            amenagement.setFitHeight(20);
+            amenagement.relocate(40,10);
+            getChildren().add(amenagement);
         }
 
 
-        this.relocate(p.getPosX(), p.getPosY());
+        relocate(p.getPosX(), p.getPosY());
     }
 
     public void actualiseNbBambou(){
@@ -83,18 +86,21 @@ public class VueParcelle extends Group {
         panda.relocate(55, 50);
     }
 
-    public Paint getCouleurAmenagement() {
-        if (p.getAmenagement()==1) return Color.BROWN;
-        if (p.getAmenagement()==2) return Color.RED;
-        if (p.getAmenagement()==3) return Color.BLUE;
+    public String getCouleurAmenagement() {
+        if (p.getAmenagement()==1) return "Amenagement_jardinier.PNG";
+        if (p.getAmenagement()==2) return "Amenagement_cloture.PNG";
+        if (p.getAmenagement()==3) return "Amenagement_irrigation.PNG";
         return null;
     }
 
     public void addAmenagement(int amenagement) {
         p.setAmenagement(amenagement);
         if (amenagement==3) actualiseNbBambou();
-        this.amenagement=new Circle(50,20,10, getCouleurAmenagement());
-        this.getChildren().add(this.amenagement);
+        this.amenagement=new ImageView("image/"+getCouleurAmenagement());
+        this.amenagement.setPreserveRatio(true);
+        this.amenagement.setFitHeight(20);
+        this.amenagement.relocate(40,10);
+        getChildren().add(this.amenagement);
 
     }
 }
