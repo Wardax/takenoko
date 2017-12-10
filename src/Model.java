@@ -13,6 +13,7 @@ public class Model {
     private int[] amenagements;
     private Plateau plateau;
     private Joueur joueurActuel;
+    private Joueur joueurFin;
 
     public Model() {
         nbJoueurs=4;
@@ -104,5 +105,28 @@ public class Model {
 
     public void nextJoueur() {
         joueurActuel=joueurs[(joueurActuel.getNumJoueur()+1)%joueurs.length];
+    }
+
+    public void lanceTourFin(Joueur joueur) {
+        joueurFin=joueur;
+    }
+
+    public Object getJoueurFin() {
+        return joueurFin;
+    }
+
+    public boolean partieFini() {
+        return joueurActuel==joueurFin;
+    }
+
+    public int getJoueurGagnant() {
+        int n=0;
+        int p=0;
+        for (Joueur j : joueurs){
+            if (j.getPoints()>p){
+                n=j.getNumJoueur();
+            }
+        }
+        return n;
     }
 }

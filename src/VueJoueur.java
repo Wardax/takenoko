@@ -1,3 +1,5 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -78,6 +80,7 @@ public class VueJoueur extends Group{
                 objectifs[i]=new ImageView(joueur.getObjectifs().get(i).getImageUrl());
                 objectifs[i].setPreserveRatio(true);
                 objectifs[i].setFitHeight(90);
+                selectionObjectif(i);
 
             }
             else  objectifs[i]=null;
@@ -94,6 +97,20 @@ public class VueJoueur extends Group{
             texts[i].relocate(i*40+25, 20);
             imageViews[i].relocate(i*40+40,20);
         }
+    }
+
+    public void selectionObjectif(int i){
+        objectifs[i].setOnMouseClicked(mouseEvent -> {
+            joueur.addObjectifTest(i);
+            deselectionObjectif(i);
+        });
+    }
+
+    public void deselectionObjectif(int i){
+        objectifs[i].setOnMouseClicked(mouseEvent -> {
+            joueur.deleteObjectifTest(i);
+            selectionObjectif(i);
+        });
     }
 
 

@@ -1,13 +1,18 @@
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -19,6 +24,7 @@ public class View {
     private Scene scene;
     private ImageView jardinier;
     private ImageView panda;
+
     Group selectionAction;
     Group plateau;
     Group positionPossible;
@@ -36,10 +42,11 @@ public class View {
     Button bOrage;
     Button bVerifObjectifs;
     Button bFinTour;
-    ImageView de;
+    private ImageView de;
 
     VueJoueur[] vueJoueurs;
-    Group vueObjectif;
+    private Group vueObjectif;
+    private Text joueurActuel;
 
     MenuBar barreMenu;
     Menu options;
@@ -58,10 +65,12 @@ public class View {
 
     private void creerScene() {
         plateau = new Group();
+
         Etang e=model.getPlateau().getEtang();
         VueParcelle etang=new VueParcelle(e);
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
+
         jardinier=new ImageView("image/Jardinier_V2.PNG");
         jardinier.setPreserveRatio(true);
         jardinier.setFitHeight(40);
@@ -69,6 +78,11 @@ public class View {
         panda=new ImageView("image/tetePanda.png");
         etang.addPanda(panda);
 
+        joueurActuel=new Text("C'est le tour du joueur n°"+(model.getJoueurActuel().getNumJoueur()+1));
+        plateau.getChildren().add(joueurActuel);
+        joueurActuel.relocate(300,40);
+        joueurActuel.setFont(Font.font ("Verdana", 25));
+        joueurActuel.setFill(Color.DARKBLUE);
 
         bParcelle =new Button("Action Parcelle");
         bParcelle.relocate(0, 50);
@@ -255,6 +269,8 @@ public class View {
        * 2 à 6 -> les cercles de selections
        * 7 à 11 -> les images */
     private void creeSelectionAction(){
+        int x=900;
+        int y=270;
         selectionAction = new Group();
 
         Button validButton=new Button("Valider");
@@ -305,18 +321,27 @@ public class View {
         ImageView imageActionParcelle =new ImageView("image/parcelle.jpg");
         imageActionParcelle.setPreserveRatio(true);
         imageActionParcelle.setFitHeight(40);
+        addInfo(imageActionParcelle, "Pioche 3 parcelles, en choisit une et la pose", x, y-20);
+
         ImageView imageActionIrrigation =new ImageView("image/irrigation120.png");
         imageActionIrrigation.setPreserveRatio(true);
         imageActionIrrigation.setFitWidth(40);
+        addInfo(imageActionIrrigation, "Ajoute une barre d'irrigation a votre réserve", x, y-20);
+
         ImageView imageActionJardinier =new ImageView("image/Jardinier_V2.PNG");
         imageActionJardinier.setPreserveRatio(true);
         imageActionJardinier.setFitHeight(40);
+        addInfo(imageActionJardinier, "Déplace le jardinier, et lui fait pousser des bambous", x, y-20);
+
         ImageView imageActionPanda =new ImageView("image/bebepanda.png");
         imageActionPanda.setPreserveRatio(true);
         imageActionPanda.setFitHeight(40);
+        addInfo(imageActionPanda, "Déplace le panda et le fait manger un bambou", x, y-20);
+
         ImageView imageActionObjectif =new ImageView("image/objectifPanda.PNG");
         imageActionObjectif.setPreserveRatio(true);
         imageActionObjectif.setFitHeight(40);
+        addInfo(imageActionObjectif, "Pioche 1 objectifs parmit les 3 types aux choix", x, y-20);
 
 
         selectionAction.getChildren().add(imageActionParcelle);
@@ -337,7 +362,7 @@ public class View {
         de.relocate(150,100);
 
         plateau.getChildren().add(selectionAction);
-        selectionAction.relocate(900, 270);
+        selectionAction.relocate(x, y);
 
 
     }
@@ -403,6 +428,7 @@ public class View {
     }
 
     public void afficheDe(int bonusDe) {
+        de.setVisible(true);
         de.setImage(new Image("image/faceDe"+bonusDe+".png"));
     }
 
@@ -451,6 +477,8 @@ public class View {
     }
 
     public void afficheObjectifs(){
+        de.setVisible(false);
+        joueurActuel.setText("C'est le tour du joueur n°"+(model.getJoueurActuel().getNumJoueur()+1));
         plateau.getChildren().remove(vueObjectif);
         vueObjectif=new Group();
         vueObjectif.relocate(900,0);
@@ -463,4 +491,27 @@ public class View {
         }
     }
 
+    public void afficheGagnant() {
+
+        Stage stage = new Stage();
+        Label modalityLabel = new Label("Partie terminé! Le joueur n°"+(model.getJoueurGagnant()+1)+" a gagné !");
+        Button closeButton = new Button("Fermer");
+        closeButton.setOnAction(e -> stage.close());
+        VBox root = new VBox();
+        root.getChildren().addAll(modalityLabel, closeButton);
+        Scene scene = new Scene(root, 200, 100);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void addInfo(Node n, String s, int x, int y){
+        Text t=new Text(s);
+        n.setOnMouseEntered(mouseEvent -> {
+            plateau.getChildren().add(t);
+            t.relocate(x,y );
+        });
+        n.setOnMouseExited(mouseEvent -> {
+            plateau.getChildren().remove(t);
+        });
+    }
 }

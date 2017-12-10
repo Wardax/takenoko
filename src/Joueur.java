@@ -15,6 +15,8 @@ public class Joueur {
     private int irrigation;
     private int points;
     private List<Objectif> objectifs;
+    private List<Objectif> objectifsATest;
+    private int nbObjectifsRealises;
 
     public Joueur(int n) {
         numJoueur=n;
@@ -30,6 +32,8 @@ public class Joueur {
         }
         points=0;
         objectifs=new ArrayList<Objectif>();
+        objectifsATest=new ArrayList<Objectif>();
+        nbObjectifsRealises=0;
     }
 
     public int[] getActions() {
@@ -77,15 +81,23 @@ public class Joueur {
         return points;
     }
 
-    public void verificationObjectifs(Plateau p){
+    public void verificationObjectifs(Model m){
         int n;
-        for (int i=0; i<objectifs.size(); i++){
-            n=objectifs.get(i).appliqueObjectif(this,p);
+        for (int i=0; i<objectifsATest.size(); i++){
+            n=objectifsATest.get(i).appliqueObjectif(this,m.getPlateau());
             if (n!=0) {
-                objectifs.remove(i);
+                objectifs.remove(objectifsATest.get(i));
+                objectifsATest.remove(i);
                 i--;
                 points+=n;
+                nbObjectifsRealises++;
             }
+            else points--;
+        }
+        objectifsATest.clear();
+        if (nbObjectifsRealises>11-m.getNbJoueurs() && m.getJoueurFin()==null){
+            m.lanceTourFin(this);
+            points+=2;
         }
     }
 
@@ -97,5 +109,13 @@ public class Joueur {
 
     public int getNumJoueur() {
         return numJoueur;
+    }
+
+    public void addObjectifTest(int i) {
+        objectifsATest.add(objectifs.get(i));
+    }
+
+    public void deleteObjectifTest(int i) {
+        objectifsATest.remove(objectifs.get(i));
     }
 }

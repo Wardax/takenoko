@@ -20,6 +20,5 @@ public class Etang extends Parcelle {
     }
 
     @Override
-    public void setIrriguee(boolean irriguee) {
-    }
+    public void setIrriguee(boolean irriguee) {}
 }

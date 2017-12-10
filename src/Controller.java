@@ -49,10 +49,10 @@ public class Controller {
 
     private void appliqueSelectionAction(){
         j=model.getJoueurActuel();
+        ((Button)view.selectionAction.getChildren().get(0)).setOnAction(null);
 
         if (j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) {
             activeBouttonFinDeTour();
-            return;
         }
 
         for (int i=0; i<3; i++){
@@ -151,6 +151,7 @@ public class Controller {
             public void handle(ActionEvent actionEvent) {
 
                 model.nextJoueur();
+                if (model.partieFini()) view.afficheGagnant();
                 activeSelectionAction();
                 view.enleveBouttonActions();
                 view.afficheObjectifs();
@@ -443,7 +444,7 @@ public class Controller {
         view.bVerifObjectifs.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                model.getJoueurActuel().verificationObjectifs(model.getPlateau());
+                model.getJoueurActuel().verificationObjectifs(model);
                 VueJoueur vj=view.vueJoueurs[model.getJoueurActuel().getNumJoueur()];
                 vj.actualiseVueJoueur();
                 vj.actualiseObjectifs();
