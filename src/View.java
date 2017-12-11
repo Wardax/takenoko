@@ -1,4 +1,5 @@
-import javafx.geometry.Bounds;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,7 +22,8 @@ import java.util.List;
  */
 public class View {
     private Model model;
-    private Scene scene;
+    private Scene sceneJeu;
+    private Scene sceneMenu;
     private ImageView jardinier;
     private ImageView panda;
 
@@ -42,12 +44,14 @@ public class View {
     Button bOrage;
     Button bVerifObjectifs;
     Button bFinTour;
-    private ImageView de;
-
     VueJoueur[] vueJoueurs;
+    ImageView de;
     private Group vueObjectif;
     private Text joueurActuel;
 
+
+    Group menu;
+    Button bNouvellePartie;
     MenuBar barreMenu;
     Menu options;
     MenuItem newPartie;
@@ -59,11 +63,14 @@ public class View {
 
     public View(Model model) {
         this.model=model;
-        creerScene();
-        creerSousMenu();
+        creerSceneJeu();
     }
 
-    private void creerScene() {
+    public View(){
+        creerScene();
+    }
+
+    private void creerSceneJeu(){
         plateau = new Group();
 
         Etang e=model.getPlateau().getEtang();
@@ -126,11 +133,58 @@ public class View {
         imageFond.setFitWidth(1200);
         plateau.getChildren().add(imageFond);
         imageFond.toBack();
-        imageFond.setOpacity(0.2);
+        imageFond.setOpacity(0.4);
 
+        sceneJeu=new Scene(plateau,1200,700);
+        creerSousMenu();
 
-        scene=new Scene(plateau,1200,700);
     }
+
+    private void creerScene() {
+        menu=new Group();
+
+        ImageView menuFond = new ImageView("/image/menu.jpg");
+        menuFond.setFitHeight(500);
+        menuFond.setFitWidth(900);
+        menu.getChildren().add(menuFond);
+        menuFond.toBack();
+        menuFond.setOpacity(1.0);
+
+        for (int i=2; i<5; i++){
+            Button b= new Button("Partie "+i+" joueurs");
+            final int nbJoueur=i;
+            b.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    Stage stage = (Stage) b.getScene().getWindow();
+                    stage.close();
+                    RunPartie.newGame(stage, nbJoueur);
+                }
+            });
+            b.relocate(400, i*50);
+            menu.getChildren().add(b);
+        }
+
+        Button b=new Button("fermer");
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage = (Stage) b.getScene().getWindow();
+                stage.close();
+            }
+        });
+        b.relocate(420, 250);
+        menu.getChildren().add(b);
+
+        //bNouvellePartie.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        //bNouvellePartie.setStyle("-fx-background-color: transparent;");
+        sceneMenu=new Scene(menu, 900, 500);
+    }
+
+    public Scene getSceneJeu() {
+        return sceneJeu;
+    }
+    public Scene getSceneMenu() { return sceneMenu; }
 
     public void enleveBouttonActions(){
         plateau.getChildren().remove(bParcelle);
@@ -143,9 +197,6 @@ public class View {
         plateau.getChildren().remove(bOrage);
     }
 
-    public Scene getScene() {
-        return scene;
-    }
 
     public void affichePosPossible(){
         List<int[]> list=model.getPlateau().getPositionNouvellePartelle();
@@ -370,7 +421,7 @@ public class View {
     public void creerSousMenu(){
         sousMenu = new Group();
         barreMenu = new MenuBar();
-        barreMenu.prefWidthProperty().bind(scene.widthProperty());
+        barreMenu.prefWidthProperty().bind(sceneJeu.widthProperty());
 
         options = new Menu("Options");
         newPartie = new MenuItem("Nouvelle Partie");
@@ -477,7 +528,6 @@ public class View {
     }
 
     public void afficheObjectifs(){
-        de.setVisible(false);
         joueurActuel.setText("C'est le tour du joueur n°"+(model.getJoueurActuel().getNumJoueur()+1));
         plateau.getChildren().remove(vueObjectif);
         vueObjectif=new Group();
@@ -499,9 +549,12 @@ public class View {
         closeButton.setOnAction(e -> stage.close());
         VBox root = new VBox();
         root.getChildren().addAll(modalityLabel, closeButton);
-        Scene scene = new Scene(root, 200, 100);
+        Scene scene = new Scene(root, 300, 70);
         stage.setScene(scene);
         stage.show();
+        for (Node n:selectionAction.getChildren()){
+            n.setOnMouseClicked(null);
+        }
     }
 
     private void addInfo(Node n, String s, int x, int y){

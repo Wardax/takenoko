@@ -15,8 +15,8 @@ public class Model {
     private Joueur joueurActuel;
     private Joueur joueurFin;
 
-    public Model() {
-        nbJoueurs=4;
+    public Model(int nbJoueurs) {
+        this.nbJoueurs=nbJoueurs;
         plateau=new Plateau();
         creePileParcelle();
         creePilesObjectfs();

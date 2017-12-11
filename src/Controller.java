@@ -29,20 +29,21 @@ public class Controller {
     }
 
     private void start() {
-        actionAmenagement();
-        actionIrrigation();
-        actionJardinier();
-        actionPanda();
-        actionParcelle();
-        actionObjectifs();
-        actionPluie();
-        actionOrage();
-        actionVerifObjectifs();
-        activeSelectionAction();
+
+            actionAmenagement();
+            actionIrrigation();
+            actionJardinier();
+            actionPanda();
+            actionParcelle();
+            actionObjectifs();
+            actionPluie();
+            actionOrage();
+            actionVerifObjectifs();
+            activeSelectionAction();
+            actionQuitter();
+            actionHelper();
 
 
-        actionQuitter();
-        actionHelper();
     }
 
 
@@ -150,6 +151,7 @@ public class Controller {
             @Override
             public void handle(ActionEvent actionEvent) {
 
+                view.de.setVisible(false);
                 model.nextJoueur();
                 if (model.partieFini()) view.afficheGagnant();
                 activeSelectionAction();

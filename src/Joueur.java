@@ -95,7 +95,7 @@ public class Joueur {
             else points--;
         }
         objectifsATest.clear();
-        if (nbObjectifsRealises>11-m.getNbJoueurs() && m.getJoueurFin()==null){
+        if (nbObjectifsRealises>=11-m.getNbJoueurs() && m.getJoueurFin()==null){
             m.lanceTourFin(this);
             points+=2;
         }
