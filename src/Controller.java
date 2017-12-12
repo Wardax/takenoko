@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.scripts.JO;
 
 import java.util.Queue;
 
@@ -29,21 +28,19 @@ public class Controller {
     }
 
     private void start() {
-
-            actionAmenagement();
-            actionIrrigation();
-            actionJardinier();
-            actionPanda();
-            actionParcelle();
-            actionObjectifs();
-            actionPluie();
-            actionOrage();
-            actionVerifObjectifs();
-            activeSelectionAction();
-            actionQuitter();
-            actionHelper();
-
-
+        actionAmenagement();
+        actionIrrigation();
+        actionJardinier();
+        actionPanda();
+        actionParcelle();
+        actionObjectifs();
+        actionPluie();
+        actionOrage();
+        actionVerifObjectifs();
+        activeSelectionAction();
+        actionQuitter();
+        actionHelper();
+        nouvellePartie();
     }
 
 
@@ -427,13 +424,13 @@ public class Controller {
                 for (Node n : view.plateau.getChildren()){
                     if (n instanceof VueParcelle){
                         VueParcelle vp=(VueParcelle)n;
-                            if (panda.getPosition()!=vp.getP()){
-                                vp.setOnMouseClicked(mouseEvent -> {
-                                    panda.deplacement(vp.getP(), model.getJoueurActuel());
-                                    view.deplacePanda(vp);
-                                    appliqueSelectionAction();
-                                });
-                            }
+                        if (panda.getPosition()!=vp.getP()){
+                            vp.setOnMouseClicked(mouseEvent -> {
+                                panda.deplacement(vp.getP(), model.getJoueurActuel());
+                                view.deplacePanda(vp);
+                                appliqueSelectionAction();
+                            });
+                        }
                     }
                 }
             }
@@ -477,6 +474,17 @@ public class Controller {
                 group.getChildren().add(texte);
                 fenetreHelp.setScene(scene);
                 fenetreHelp.show();
+            }
+        });
+    }
+
+    private void nouvellePartie(){
+        view.newPartie.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage stage = (Stage) view.plateau.getScene().getWindow();
+                stage.close();
+                RunPartie.newGame(stage, model.getNbJoueurs());
             }
         });
     }

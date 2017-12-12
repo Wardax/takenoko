@@ -80,6 +80,7 @@ public class VueJoueur extends Group{
                 objectifs[i]=new ImageView(joueur.getObjectifs().get(i).getImageUrl());
                 objectifs[i].setPreserveRatio(true);
                 objectifs[i].setFitHeight(90);
+                objectifs[i].setOpacity(0.8);
                 selectionObjectif(i);
 
             }
@@ -102,6 +103,7 @@ public class VueJoueur extends Group{
     public void selectionObjectif(int i){
         objectifs[i].setOnMouseClicked(mouseEvent -> {
             joueur.addObjectifTest(i);
+            objectifs[i].setOpacity(1);
             deselectionObjectif(i);
         });
     }
@@ -109,6 +111,7 @@ public class VueJoueur extends Group{
     public void deselectionObjectif(int i){
         objectifs[i].setOnMouseClicked(mouseEvent -> {
             joueur.deleteObjectifTest(i);
+            objectifs[i].setOpacity(0.8);
             selectionObjectif(i);
         });
     }
