@@ -51,7 +51,6 @@ public class View {
 
 
     Group menu;
-    Button bNouvellePartie;
     MenuBar barreMenu;
     Menu options;
     MenuItem newPartie;
@@ -252,6 +251,7 @@ public class View {
 
     public void afficheIrrigation(Node n) {
         ((Rectangle)n).setFill(Color.AQUA);
+        n.setOnMouseClicked(null);
         plateau.getChildren().add(n);
         vueJoueurs[model.getJoueurActuel().getNumJoueur()].actualiseVueJoueur();
 
@@ -542,7 +542,6 @@ public class View {
     }
 
     public void afficheGagnant() {
-
         Stage stage = new Stage();
         Label modalityLabel = new Label("Partie terminé! Le joueur n°"+(model.getJoueurGagnant()+1)+" a gagné !");
         Button closeButton = new Button("Fermer");
