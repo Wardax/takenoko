@@ -53,7 +53,6 @@ public class View {
     MenuBar barreMenu;
     Menu options;
     MenuItem newPartie;
-    MenuItem rules;
     MenuItem helper;
     MenuItem quitter;
     Group sousMenu;
@@ -422,12 +421,11 @@ public class View {
 
         options = new Menu("Options");
         newPartie = new MenuItem("Nouvelle Partie");
-        rules = new MenuItem("Règles");
-        helper = new MenuItem("Aides");
+        helper = new MenuItem("Règles");
         quitter = new MenuItem("Quitter");
 
 
-        options.getItems().addAll(newPartie, new SeparatorMenuItem(), rules, new SeparatorMenuItem(), helper, new SeparatorMenuItem(), quitter);
+        options.getItems().addAll(newPartie, new SeparatorMenuItem(), helper, new SeparatorMenuItem(), quitter);
         barreMenu.getMenus().addAll(options);
 
         sousMenu.getChildren().add(barreMenu);

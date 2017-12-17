@@ -1,5 +1,7 @@
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Queue;
 
 /**
@@ -435,14 +438,15 @@ public class Controller {
 
     private void actionHelper(){
         view.helper.setOnAction(event -> {
-            Stage fenetreHelp = new Stage();
-            Group group = new Group();
-            Scene scene = new Scene(group,400,400);
-            String aides = "";
-            Label texte = new Label(aides);
-            group.getChildren().add(texte);
-            fenetreHelp.setScene(scene);
-            fenetreHelp.show();
+            String fichierAOuvrir =  System.getProperty("user.dir")+"/src/image/Takenoko_rules_FR.pdf";
+            String navigateur = "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"";
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(new String[]{navigateur,
+                        fichierAOuvrir});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
