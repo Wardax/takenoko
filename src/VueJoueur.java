@@ -70,7 +70,7 @@ public class VueJoueur extends Group{
         texts[1].setText(""+joueur.getBambous()[0]);
         texts[2].setText(""+joueur.getBambous()[1]);
         texts[3].setText(""+joueur.getBambous()[2]);
-        texts[4].setText(""+joueur.getObjectifs().size());
+        texts[4].setText(""+joueur.getNbObjectifsRealises());
         texts[5].setText(""+joueur.getPoints()+" pts");
     }
 

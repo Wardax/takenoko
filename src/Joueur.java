@@ -11,7 +11,6 @@ public class Joueur {
     private int[] actions;
     private int bonusDe;
     private int[] bambous;
-    private int[] amenagements;
     private int irrigation;
     private int points;
     private List<Objectif> objectifs;
@@ -21,18 +20,16 @@ public class Joueur {
     public Joueur(int n) {
         numJoueur=n;
         bambous=new int[3];
-        amenagements=new int[3];
         actions=new int[3];
         irrigation=0;
         bonusDe=0;
         for (int i=0; i<3; i++){
             bambous[i]=0;
-            amenagements[i]=0;
             actions[i]=0;
         }
         points=0;
-        objectifs=new ArrayList<Objectif>();
-        objectifsATest=new ArrayList<Objectif>();
+        objectifs= new ArrayList<>();
+        objectifsATest= new ArrayList<>();
         nbObjectifsRealises=0;
     }
 
@@ -42,10 +39,6 @@ public class Joueur {
 
     public int[] getBambous() {
         return bambous;
-    }
-
-    public int[] getAmenagements() {
-        return amenagements;
     }
 
     public int getBonusDe() {
@@ -117,5 +110,9 @@ public class Joueur {
 
     public void deleteObjectifTest(int i) {
         objectifsATest.remove(objectifs.get(i));
+    }
+
+    public int getNbObjectifsRealises() {
+        return nbObjectifsRealises;
     }
 }

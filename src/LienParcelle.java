@@ -11,7 +11,7 @@ public class LienParcelle {
         this.parcelleLie1 = parcelleLie1;
         this.parcelleLie2 = parcelleLie2;
         if (parcelleLie1 instanceof Etang || parcelleLie2 instanceof Etang) {
-            setIrriguee(true);
+            setIrriguee();
         }
         else irriguee=false;
     }
@@ -23,33 +23,33 @@ public class LienParcelle {
     public void initialisePos(){
         pos= new int[3];
         if (this==parcelleLie1.getLienParcelles()[0]){
-            pos[0]=parcelleLie1.getPosX()+50;
-            pos[1]=parcelleLie1.getPosY();
+            pos[0]=parcelleLie1.getPosX()+50+20;
+            pos[1]=parcelleLie1.getPosY()-10;
             pos[2]=0;
         }
         else if (this==parcelleLie1.getLienParcelles()[1]){
-            pos[0]=parcelleLie1.getPosX()+100;
+            pos[0]=parcelleLie1.getPosX()+100-5;
             pos[1]=parcelleLie1.getPosY()+30;
             pos[2]=1;
         }
         else if (this==parcelleLie1.getLienParcelles()[2]){
-            pos[0]=parcelleLie1.getPosX()+50;
-            pos[1]=parcelleLie1.getPosY()+80;
+            pos[0]=parcelleLie1.getPosX()+50+20;
+            pos[1]=parcelleLie1.getPosY()+80-10;
             pos[2]=2;
         }
         else if (this==parcelleLie1.getLienParcelles()[3]){
-            pos[0]=parcelleLie1.getPosX();
-            pos[1]=parcelleLie1.getPosY()+80;
+            pos[0]=parcelleLie1.getPosX()+20;
+            pos[1]=parcelleLie1.getPosY()-10;
             pos[2]=0;
         }
         else if (this==parcelleLie1.getLienParcelles()[4]){
-            pos[0]=parcelleLie1.getPosX();
+            pos[0]=parcelleLie1.getPosX()-5;
             pos[1]=parcelleLie1.getPosY()+30;
             pos[2]=1;
         }
         else {
-            pos[0]=parcelleLie1.getPosX();
-            pos[1]=parcelleLie1.getPosY();
+            pos[0]=parcelleLie1.getPosX()+20;
+            pos[1]=parcelleLie1.getPosY()+80-10;
             pos[2]=2;
         }
     }
@@ -78,10 +78,10 @@ public class LienParcelle {
         return pos;
     }
 
-    public void setIrriguee(boolean irriguee) {
-        this.irriguee = irriguee;
-        parcelleLie1.setIrriguee(irriguee);
-        parcelleLie2.setIrriguee(irriguee);
+    public void setIrriguee() {
+        this.irriguee = true;
+        parcelleLie1.setIrriguee();
+        parcelleLie2.setIrriguee();
     }
 
     public Parcelle getParcelLie(Parcelle p) {

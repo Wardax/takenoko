@@ -12,6 +12,7 @@ public class Parcelle {
     private int posX;
     private int posY;
     private boolean irriguee;
+    // 0 aucun, 1 engrais, 2 enclos, 3 source
     private int amenagement;
     static int width=50;
     static int height=55;
@@ -24,6 +25,11 @@ public class Parcelle {
         amenagement=0;
         this.posX=posX;
         this.posY=posY;
+    }
+
+    public Parcelle(int couleurParcelle, int amenagement){
+        this(couleurParcelle);
+        this.amenagement=amenagement;
     }
 
     public Parcelle(int couleurParcelle){
@@ -113,9 +119,9 @@ public class Parcelle {
         this.nbBambou = nbBambou;
     }
 
-    public void setIrriguee(boolean irriguee) {
+    public void setIrriguee() {
         if (!this.irriguee) {
-            this.irriguee = irriguee;
+            this.irriguee = true;
             pousseBambou();
         }
     }
@@ -126,7 +132,7 @@ public class Parcelle {
 
     public void setAmenagement(int amenagement) {
         this.amenagement = amenagement;
-        if (amenagement==3) setIrriguee(true);
+        if (amenagement==3) setIrriguee();
     }
 
 

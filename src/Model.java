@@ -32,17 +32,28 @@ public class Model {
     }
 
     private void creePileParcelle() {
-        List<Parcelle> pileParcelle=new ArrayList<Parcelle>();
-        for (int i=0; i<11; i++) pileParcelle.add(new Parcelle(0));
-        for (int i=0; i<7; i++) pileParcelle.add(new Parcelle(1));
-        for (int i=0; i<9; i++) pileParcelle.add(new Parcelle(2));
+        List<Parcelle> pileParcelle= new ArrayList<>();
+        for (int i=0; i<6; i++) pileParcelle.add(new Parcelle(0));
+        pileParcelle.add(new Parcelle(0,1));
+        pileParcelle.add(new Parcelle(0,2));
+        pileParcelle.add(new Parcelle(0,2));
+        pileParcelle.add(new Parcelle(0,3));
+        pileParcelle.add(new Parcelle(0,3));
+        for (int i=0; i<4; i++) pileParcelle.add(new Parcelle(1));
+        pileParcelle.add(new Parcelle(1,1));
+        pileParcelle.add(new Parcelle(1,2));
+        pileParcelle.add(new Parcelle(1,3));
+        for (int i=0; i<6; i++) pileParcelle.add(new Parcelle(2));
+        pileParcelle.add(new Parcelle(2,1));
+        pileParcelle.add(new Parcelle(2,2));
+        pileParcelle.add(new Parcelle(2,3));
         Collections.shuffle(pileParcelle);
-        this.pileParcelle=new ArrayDeque<Parcelle>();
+        this.pileParcelle= new ArrayDeque<>();
         this.pileParcelle.addAll(pileParcelle);
     }
 
     private void creePilesObjectfs(){
-        List<Objectif> pileObjectifs = new ArrayList<Objectif>();
+        List<Objectif> pileObjectifs = new ArrayList<>();
         for (int i=0; i<5; i++) pileObjectifs.add(new Objectif(1));
         for (int i=0; i<4; i++) pileObjectifs.add(new Objectif(2));
         for (int i=0; i<3; i++) {
@@ -50,19 +61,19 @@ public class Model {
             pileObjectifs.add(new Objectif(4));
         }
         Collections.shuffle(pileObjectifs);
-        pileObjectifsPanda=new ArrayDeque<Objectif>();
+        pileObjectifsPanda= new ArrayDeque<>();
         pileObjectifsPanda.addAll(pileObjectifs);
         pileObjectifs.clear();
 
         for (int i=5; i<20; i++) pileObjectifs.add(new Objectif(i));
         Collections.shuffle(pileObjectifs);
-        pileObjectifsJardinier=new ArrayDeque<Objectif>();
+        pileObjectifsJardinier= new ArrayDeque<>();
         pileObjectifsJardinier.addAll(pileObjectifs);
         pileObjectifs.clear();
 
         for (int i=20; i<35; i++) pileObjectifs.add(new Objectif(i));
         Collections.shuffle(pileObjectifs);
-        pileObjectifsParcelle=new ArrayDeque<Objectif>();
+        pileObjectifsParcelle= new ArrayDeque<>();
         pileObjectifsParcelle.addAll(pileObjectifs);
 
     }

@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -152,31 +153,23 @@ public class View {
         for (int i=2; i<5; i++){
             Button b= new Button("Partie "+i+" joueurs");
             final int nbJoueur=i;
-            b.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    Stage stage = (Stage) b.getScene().getWindow();
-                    stage.close();
-                    RunPartie.newGame(stage, nbJoueur);
-                }
+            b.setOnAction(actionEvent -> {
+                Stage stage = (Stage) b.getScene().getWindow();
+                stage.close();
+                RunPartie.newGame(stage, nbJoueur);
             });
             b.relocate(400, i*50);
             menu.getChildren().add(b);
         }
 
         Button b=new Button("fermer");
-        b.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Stage stage = (Stage) b.getScene().getWindow();
-                stage.close();
-            }
+        b.setOnAction(actionEvent -> {
+            Stage stage = (Stage) b.getScene().getWindow();
+            stage.close();
         });
         b.relocate(420, 250);
         menu.getChildren().add(b);
 
-        //bNouvellePartie.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        //bNouvellePartie.setStyle("-fx-background-color: transparent;");
         sceneMenu=new Scene(menu, 900, 500);
     }
 
@@ -240,8 +233,14 @@ public class View {
         irrigationPossible=new Group();
         for (int[] l : list){
             Rectangle rectangle = new Rectangle();
-            rectangle.setHeight(50);
+            rectangle.setHeight(55);
             rectangle.setWidth(10);
+            if (l[2]==0){
+                rectangle.setRotate(120);
+            }
+            if (l[2]==2){
+                rectangle.setRotate(60);
+            }
 
             irrigationPossible.getChildren().add(rectangle);
             rectangle.relocate(l[0], l[1]);
@@ -562,8 +561,28 @@ public class View {
             plateau.getChildren().add(t);
             t.relocate(x,y );
         });
-        n.setOnMouseExited(mouseEvent -> {
-            plateau.getChildren().remove(t);
-        });
+        n.setOnMouseExited(mouseEvent ->  plateau.getChildren().remove(t));
+    }
+
+    public void reduitOpacite(){
+        for (Node n : plateau.getChildren()){
+            if (n instanceof VueParcelle) n.setOpacity(0.7);
+        }
+    }
+
+    public void remetOpacite(){
+        for (Node n : plateau.getChildren()){
+            if (n instanceof VueParcelle) n.setOpacity(1);
+        }
+    }
+
+    public List<VueParcelle> getVueParcelles(){
+        List<VueParcelle> list = new ArrayList<>();
+        for (Node n : plateau.getChildren()){
+            if (n instanceof VueParcelle){
+                list.add((VueParcelle)n);
+            }
+        }
+        return list;
     }
 }

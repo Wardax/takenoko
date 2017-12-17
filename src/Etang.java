@@ -10,7 +10,7 @@ public class Etang extends Parcelle {
     }
 
     public List<int[]> getPosParcelleVideAdjacente(){
-        List<int[]> listPosNewParc=new ArrayList<int[]>();
+        List<int[]> listPosNewParc= new ArrayList<>();
         LienParcelle[] l = getLienParcelles();
         int [][] posAdj = getAdjacence();
         for (int i=0; i<6; i++){
@@ -20,5 +20,5 @@ public class Etang extends Parcelle {
     }
 
     @Override
-    public void setIrriguee(boolean irriguee) {}
+    public void setIrriguee() {}
 }

@@ -12,7 +12,7 @@ public class Jardinier {
     }
 
     public List<Parcelle> deplacementsPossible(){
-        List<Parcelle> deplacementsPossible=new ArrayList<Parcelle>();
+        List<Parcelle> deplacementsPossible= new ArrayList<>();
         for (int i=0; i<6; i++){
             Parcelle p= position.parcellesAdjacentes()[i];
             while (p!= null){

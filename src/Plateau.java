@@ -14,8 +14,8 @@ public class Plateau {
     private Jardinier jardinier;
 
     public Plateau() {
-        parcelles=new ArrayList<Parcelle>();
-        lienParcelles=new ArrayList<LienParcelle>();
+        parcelles= new ArrayList<>();
+        lienParcelles= new ArrayList<>();
         etang=new Etang();
         parcelles.add(etang);
         jardinier=new Jardinier(etang);
@@ -32,7 +32,7 @@ public class Plateau {
     }
 
     public List<int[]> getPositionNouvellePartelle(){
-        List<int[]> listPosNewParc=new ArrayList<int[]>();
+        List<int[]> listPosNewParc= new ArrayList<>();
         for (Parcelle p : parcelles){
             listPosNewParc.addAll(p.getPosParcelleVideAdjacente());
         }
@@ -40,7 +40,7 @@ public class Plateau {
     }
 
     public List<int[]> getPositionIrrigationPossible(){
-        List<int[]> listPosIrrigation=new ArrayList<int[]>();
+        List<int[]> listPosIrrigation= new ArrayList<>();
         for (LienParcelle l : lienParcelles){
             int[] pos=l.getPosSiIrrigationPossible();
             if (pos!=null) listPosIrrigation.add(pos);
@@ -72,7 +72,7 @@ public class Plateau {
     }
 
     public List<Parcelle> getParcellesSansAmenagement(){
-        List<Parcelle> parcellesSansAmenagement=new ArrayList<Parcelle>();
+        List<Parcelle> parcellesSansAmenagement= new ArrayList<>();
         for (Parcelle p: parcelles){
             if (p.getAmenagement()==0 && !(p instanceof Etang)) parcellesSansAmenagement.add(p);
         }
@@ -93,7 +93,7 @@ public class Plateau {
     }
 
     public List<Parcelle> getParcellesIrriguees() {
-        List<Parcelle> list = new ArrayList<Parcelle>();
+        List<Parcelle> list = new ArrayList<>();
         for (Parcelle p : parcelles){
             if (p.isIrriguee()) list.add(p);
         }

@@ -1,7 +1,5 @@
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -47,28 +45,37 @@ public class Controller {
 
     private void appliqueSelectionAction(){
         j=model.getJoueurActuel();
+        Plateau p=model.getPlateau();
+        boolean action=false;
         ((Button)view.selectionAction.getChildren().get(0)).setOnAction(null);
 
-        if (j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) {
-            activeBouttonFinDeTour();
-        }
 
         for (int i=0; i<3; i++){
-            if (j.getActions()[i]==1) view.ajouteBouttonParcelle();
+            if (j.getActions()[i]==1) {
+                view.ajouteBouttonParcelle();
+                action=true;
+            }
             if (j.getActions()[i]==2) {
                 j.setIrrigation(j.getIrrigation()+1);
                 j.getActions()[i]=0;
             }
-            if (j.getActions()[i]==3) view.ajouteBouttonJardinier();
-            if (j.getActions()[i]==4) view.ajouteBouttonPanda();
-            if (j.getActions()[i]==5) view.ajouteBouttonObjectifs();
+            if (j.getActions()[i]==3 && p.getParcelles().size()>1) view.ajouteBouttonJardinier();
+            if (j.getActions()[i]==4 && p.getParcelles().size()>1) view.ajouteBouttonPanda();
+            if (j.getActions()[i]==5 ){
+                view.ajouteBouttonObjectifs();
+                action=true;
+            }
         }
 
-        if (j.getActions()[2] == 6) view.ajouteBouttonPluie();
-        if (j.getActions()[2] == 7) view.ajouteBouttonOrage();
-        if (j.getActions()[2] == 8) view.ajouteBouttonNuage();
+        if (j.getIrrigation()>0 && p.getPositionIrrigationPossible().size()>0) view.ajouteBouttonIrrigation();
 
-        if (j.getIrrigation()>0) view.ajouteBouttonIrrigation();
+        if (j.getActions()[2] == 6 && p.getParcelles().size()>1) view.ajouteBouttonPluie();
+        if (j.getActions()[2] == 7 && p.getParcelles().size()>1) view.ajouteBouttonOrage();
+        if (j.getActions()[2] == 8 && p.getParcelles().size()>1) view.ajouteBouttonNuage();
+
+        if ((j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) || !action) {
+            activeBouttonFinDeTour();
+        }
 
     }
 
@@ -100,12 +107,7 @@ public class Controller {
                     for (int k=2; k<7; k++) {
                         view.selectionAction.getChildren().get(k).setOnMouseClicked(null);
                     }
-                    ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            appliqueSelectionAction();
-                        }
-                    });
+                    ((Button)view.selectionAction.getChildren().get(0)).setOnAction(actionEvent -> appliqueSelectionAction());
 
                 });
             }
@@ -133,29 +135,21 @@ public class Controller {
             }
 
         }
-        ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                appliqueSelectionAction();
-            }
-        });
+        ((Button)view.selectionAction.getChildren().get(0)).setOnAction(actionEvent -> appliqueSelectionAction());
 
     }
 
 
     private void activeBouttonFinDeTour() {
-        view.bFinTour.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        view.bFinTour.setOnAction(actionEvent -> {
 
-                view.de.setVisible(false);
-                model.nextJoueur();
-                if (model.partieFini()) view.afficheGagnant();
-                activeSelectionAction();
-                view.enleveBouttonActions();
-                view.afficheObjectifs();
-                view.bFinTour.setOnAction(null);
-            }
+            view.de.setVisible(false);
+            model.nextJoueur();
+            if (model.partieFini()) view.afficheGagnant();
+            activeSelectionAction();
+            view.enleveBouttonActions();
+            view.afficheObjectifs();
+            view.bFinTour.setOnAction(null);
         });
     }
 
@@ -174,28 +168,24 @@ public class Controller {
                     for (int k=2; k<7; k++) {
                         view.selectionAction.getChildren().get(k).setOnMouseClicked(null);
                     }
-                    ((Button)view.selectionAction.getChildren().get(0)).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            controleDe();
-                        }
-                    });
+                    ((Button)view.selectionAction.getChildren().get(0)).setOnAction(actionEvent -> controleDe());
                 }
             });
         }
     }
 
     private void activeParcelleAmenageable(int amenagement) {
-        for (Node n : view.plateau.getChildren()){
-            if (n instanceof VueParcelle ){
-                for (Parcelle p : model.getPlateau().getParcellesSansAmenagement()){
-                    if (((VueParcelle) n).getP()==p){
-                        n.setOnMouseClicked(mouseEvent -> {
-                            ((VueParcelle) n).addAmenagement(amenagement);
-                            desactiveMouseEvent();
-                            appliqueSelectionAction();
-                        });
-                    }
+        view.reduitOpacite();
+        for (VueParcelle n : view.getVueParcelles()){
+            for (Parcelle p : model.getPlateau().getParcellesSansAmenagement()){
+                if ( n.getP()==p){
+                    n.setOpacity(1);
+                    n.setOnMouseClicked(mouseEvent -> {
+                        view.remetOpacite();
+                         n.addAmenagement(amenagement);
+                        desactiveMouseEvent();
+                        appliqueSelectionAction();
+                    });
                 }
             }
         }
@@ -232,59 +222,52 @@ public class Controller {
 
 
     private void actionParcelle(){
-        view.bParcelle.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(1);
+        view.bParcelle.setOnAction(actionEvent -> {
+            supprimeAction(1);
 
-                // On recupère les 3 premieres parcelles de la pile ou moins si il n'en reste plus asses
-                Queue<Parcelle> pile=model.getPileParcelle();
-                int max=0;
-                if (pile.size()>=3) max=3;
-                else max=pile.size();
-                Parcelle[] parcelles= new Parcelle[max];
-                for (int i=0; i<parcelles.length; i++) parcelles[i]=pile.poll();
-                // On affiche la selection,
-                view.affichageSelectionParcelle(parcelles);
-                for (Node n : view.selectionParcelle.getChildren()){
-                    //lorsque une des 3 est selectionné on renvoit les 2 autres dans la pile et on affiche les position possible pour la 3eme
-                    n.setOnMouseClicked(mouseEvent -> {
-                        view.plateau.getChildren().remove(view.selectionParcelle);
-                        for (int i=0; i<parcelles.length; i++){
-                            if (((VueParcelle)n).getP()!=parcelles[i] ){
-                                pile.offer(parcelles[i]);
-                            }
-                            else {
-                                demandePos(parcelles[i]);
-                            }
+            // On recupère les 3 premieres parcelles de la pile ou moins si il n'en reste plus asses
+            Queue<Parcelle> pile=model.getPileParcelle();
+            int max;
+            if (pile.size()>=3) max=3;
+            else max=pile.size();
+            Parcelle[] parcelles= new Parcelle[max];
+            for (int i=0; i<parcelles.length; i++) parcelles[i]=pile.poll();
+            // On affiche la selection,
+            view.affichageSelectionParcelle(parcelles);
+            for (Node n : view.selectionParcelle.getChildren()){
+                //lorsque une des 3 est selectionné on renvoit les 2 autres dans la pile et on affiche les position possible pour la 3eme
+                n.setOnMouseClicked(mouseEvent -> {
+                    view.plateau.getChildren().remove(view.selectionParcelle);
+                    for (Parcelle parcelle : parcelles) {
+                        if (((VueParcelle) n).getP() != parcelle) {
+                            pile.offer(parcelle);
+                        } else {
+                            demandePos(parcelle);
                         }
-                    });
-                }
+                    }
+                });
             }
         });
     }
 
 
     private void actionIrrigation(){
-        view.irrigation.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(0);
-                view.afficheIrrigationPossible();
-                for (Node n : view.irrigationPossible.getChildren()){
-                    n.setOnMouseClicked(mouseEvent -> {
-                        for (LienParcelle l : model.getPlateau().getLienParcelles()){
-                            if (n.getLayoutX()==l.getPos()[0] && n.getLayoutY()==l.getPos()[1]){
-                                l.setIrriguee(true);
-                                view.actualiseParcelle();
-                            }
+        view.irrigation.setOnAction(actionEvent -> {
+            supprimeAction(0);
+            view.afficheIrrigationPossible();
+            for (Node n : view.irrigationPossible.getChildren()){
+                n.setOnMouseClicked(mouseEvent -> {
+                    for (LienParcelle l : model.getPlateau().getLienParcelles()){
+                        if (n.getLayoutX()==l.getPos()[0] && n.getLayoutY()==l.getPos()[1]){
+                            l.setIrriguee();
+                            view.actualiseParcelle();
                         }
-                        view.plateau.getChildren().remove(view.irrigationPossible);
-                        model.getJoueurActuel().setIrrigation(j.getIrrigation()-1);
-                        view.afficheIrrigation(n);
-                        appliqueSelectionAction();
-                    });
-                }
+                    }
+                    view.plateau.getChildren().remove(view.irrigationPossible);
+                    model.getJoueurActuel().setIrrigation(j.getIrrigation()-1);
+                    view.afficheIrrigation(n);
+                    appliqueSelectionAction();
+                });
             }
         });
     }
@@ -292,23 +275,21 @@ public class Controller {
 
 
     private void actionJardinier(){
-        view.bJardinier.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(3);
+        view.bJardinier.setOnAction(actionEvent -> {
+            supprimeAction(3);
+            view.reduitOpacite();
 
-                for (Node n : view.plateau.getChildren()){
-                    if (n instanceof VueParcelle){
-                        for (Parcelle p: model.getPlateau().getJardinier().deplacementsPossible()){
-                            if (((VueParcelle)n).getP()==p){
-                                n.setOnMouseClicked(mouseEvent -> {
-                                    model.getPlateau().getJardinier().deplacement(p);
-                                    view.deplaceJardinier((VueParcelle)n);
-                                    desactiveMouseEvent();
-                                    appliqueSelectionAction();
-                                });
-                            }
-                        }
+            for (VueParcelle n : view.getVueParcelles()){
+                for (Parcelle p: model.getPlateau().getJardinier().deplacementsPossible()){
+                    if (n.getP()==p){
+                        n.setOpacity(1);
+                        n.setOnMouseClicked(mouseEvent -> {
+                            view.remetOpacite();
+                            model.getPlateau().getJardinier().deplacement(p);
+                            view.deplaceJardinier(n);
+                            desactiveMouseEvent();
+                            appliqueSelectionAction();
+                        });
                     }
                 }
             }
@@ -317,50 +298,46 @@ public class Controller {
 
 
     private void actionPanda(){
-        view.bPanda.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(4);
+        view.bPanda.setOnAction(actionEvent -> {
+            supprimeAction(4);
+            view.reduitOpacite();
 
-                for (Node n : view.plateau.getChildren()){
-                    if (n instanceof VueParcelle){
-                        for (Parcelle p: model.getPlateau().getPanda().deplacementsPossible()){
-                            if (((VueParcelle)n).getP()==p){
-                                n.setOnMouseClicked(mouseEvent -> {
-                                    model.getPlateau().getPanda().deplacement(p,model.getJoueurActuel());
-                                    view.deplacePanda((VueParcelle)n);
-                                    desactiveMouseEvent();
-                                    appliqueSelectionAction();
-                                });
-                            }
-                        }
+            for (VueParcelle n : view.getVueParcelles()){
+                for (Parcelle p: model.getPlateau().getPanda().deplacementsPossible()){
+                    if (n.getP()==p){
+                        n.setOpacity(1);
+                        n.setOnMouseClicked(mouseEvent -> {
+                            view.remetOpacite();
+                            model.getPlateau().getPanda().deplacement(p,model.getJoueurActuel());
+                            view.deplacePanda(n);
+                            desactiveMouseEvent();
+                            appliqueSelectionAction();
+                        });
                     }
                 }
             }
+
         });
     }
 
 
     private void actionObjectifs() {
-        view.bObjectifs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(5);
+        view.bObjectifs.setOnAction(actionEvent -> {
+            supprimeAction(5);
 
-                view.affichageSelectionObjectifs();
-                int i=1;
-                for (Node n : view.selectionObjectifs.getChildren()){
-                    final int pile = i;
-                    n.setOnMouseClicked(mouseEvent -> {
-                        view.plateau.getChildren().remove(view.selectionAmenagement);
-                        if (pile==1)  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsPanda());
-                        else if (pile==2) model.getJoueurActuel().piocheObjectif(model.getPileObjectifsJardinier());
-                        else  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsParcelle());
-                        view.actualiseAjoutObjectif();
-                        appliqueSelectionAction();
-                    });
-                    i++;
-                }
+            view.affichageSelectionObjectifs();
+            int i=1;
+            for (Node n : view.selectionObjectifs.getChildren()){
+                final int pile = i;
+                n.setOnMouseClicked(mouseEvent -> {
+                    view.plateau.getChildren().remove(view.selectionAmenagement);
+                    if (pile==1)  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsPanda());
+                    else if (pile==2) model.getJoueurActuel().piocheObjectif(model.getPileObjectifsJardinier());
+                    else  model.getJoueurActuel().piocheObjectif(model.getPileObjectifsParcelle());
+                    view.actualiseAjoutObjectif();
+                    appliqueSelectionAction();
+                });
+                i++;
             }
         });
     }
@@ -369,44 +346,38 @@ public class Controller {
 
 
     private void actionAmenagement(){
-        view.bNuage.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(8);
+        view.bNuage.setOnAction(actionEvent -> {
+            supprimeAction(8);
 
-                view.affichageSelectionAmenagement();
-                int i=1;
-                for (Node n : view.selectionAmenagement.getChildren()){
-                    final int amenagement = i;
-                    n.setOnMouseClicked(mouseEvent -> {
-                        view.plateau.getChildren().remove(view.selectionAmenagement);
-                        activeParcelleAmenageable(amenagement);
-                    });
-                    i++;
-                }
+            view.affichageSelectionAmenagement();
+            int i=1;
+            for (Node n : view.selectionAmenagement.getChildren()){
+                final int amenagement = i;
+                n.setOnMouseClicked(mouseEvent -> {
+                    view.plateau.getChildren().remove(view.selectionAmenagement);
+                    activeParcelleAmenageable(amenagement);
+                });
+                i++;
             }
         });
     }
 
     private void actionPluie(){
-        view.bPluie.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(6);
+        view.bPluie.setOnAction(actionEvent -> {
+            supprimeAction(6);
+            view.reduitOpacite();
 
-                for (Node n : view.plateau.getChildren()){
-                    if (n instanceof VueParcelle){
-                        VueParcelle vp=(VueParcelle)n;
-                        for (Parcelle p : model.getPlateau().getParcellesIrriguees()){
-                            if (p==vp.getP()){
-                                vp.setOnMouseClicked(mouseEvent -> {
-                                    vp.getP().pousseBambou();
-                                    vp.actualiseNbBambou();
-                                    desactiveMouseEvent();
-                                    appliqueSelectionAction();
-                                });
-                            }
-                        }
+            for (VueParcelle vp : view.getVueParcelles()){
+                for (Parcelle p : model.getPlateau().getParcellesIrriguees()){
+                    if (p==vp.getP()){
+                        vp.setOpacity(1);
+                        vp.setOnMouseClicked(mouseEvent -> {
+                            view.remetOpacite();
+                            vp.getP().pousseBambou();
+                            vp.actualiseNbBambou();
+                            desactiveMouseEvent();
+                            appliqueSelectionAction();
+                        });
                     }
                 }
             }
@@ -415,23 +386,19 @@ public class Controller {
 
 
     private void actionOrage(){
-        view.bOrage.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                supprimeAction(7);
-                Panda panda=model.getPlateau().getPanda();
-
-                for (Node n : view.plateau.getChildren()){
-                    if (n instanceof VueParcelle){
-                        VueParcelle vp=(VueParcelle)n;
-                        if (panda.getPosition()!=vp.getP()){
-                            vp.setOnMouseClicked(mouseEvent -> {
-                                panda.deplacement(vp.getP(), model.getJoueurActuel());
-                                view.deplacePanda(vp);
-                                appliqueSelectionAction();
-                            });
-                        }
-                    }
+        view.bOrage.setOnAction(actionEvent -> {
+            supprimeAction(7);
+            view.reduitOpacite();
+            Panda panda=model.getPlateau().getPanda();
+            for (VueParcelle vp : view.getVueParcelles()){
+                if (panda.getPosition()!=vp.getP()){
+                    vp.setOpacity(1);
+                    vp.setOnMouseClicked(mouseEvent -> {
+                        view.remetOpacite();
+                        panda.deplacement(vp.getP(), model.getJoueurActuel());
+                        view.deplacePanda(vp);
+                        appliqueSelectionAction();
+                    });
                 }
             }
         });
@@ -440,52 +407,38 @@ public class Controller {
 
 
     private void actionVerifObjectifs() {
-        view.bVerifObjectifs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                model.getJoueurActuel().verificationObjectifs(model);
-                VueJoueur vj=view.vueJoueurs[model.getJoueurActuel().getNumJoueur()];
-                vj.actualiseVueJoueur();
-                vj.actualiseObjectifs();
-                view.afficheObjectifs();
-            }
+        view.bVerifObjectifs.setOnAction(actionEvent -> {
+            model.getJoueurActuel().verificationObjectifs(model);
+            VueJoueur vj=view.vueJoueurs[model.getJoueurActuel().getNumJoueur()];
+            vj.actualiseVueJoueur();
+            vj.actualiseObjectifs();
+            view.afficheObjectifs();
         });
     }
 
 
     private void actionQuitter(){
-        view.quitter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Platform.exit();
-            }
-        });
+        view.quitter.setOnAction(event -> Platform.exit());
     }
 
     private void actionHelper(){
-        view.helper.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage fenetreHelp = new Stage();
-                Group group = new Group();
-                Scene scene = new Scene(group,400,400);
-                String aides = "";
-                Label texte = new Label(aides);
-                group.getChildren().add(texte);
-                fenetreHelp.setScene(scene);
-                fenetreHelp.show();
-            }
+        view.helper.setOnAction(event -> {
+            Stage fenetreHelp = new Stage();
+            Group group = new Group();
+            Scene scene = new Scene(group,400,400);
+            String aides = "";
+            Label texte = new Label(aides);
+            group.getChildren().add(texte);
+            fenetreHelp.setScene(scene);
+            fenetreHelp.show();
         });
     }
 
     private void nouvellePartie(){
-        view.newPartie.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage stage = (Stage) view.plateau.getScene().getWindow();
-                stage.close();
-                RunPartie.newGame(stage, model.getNbJoueurs());
-            }
+        view.newPartie.setOnAction(event -> {
+            Stage stage = (Stage) view.plateau.getScene().getWindow();
+            stage.close();
+            RunPartie.newGame(stage, model.getNbJoueurs());
         });
     }
 }
