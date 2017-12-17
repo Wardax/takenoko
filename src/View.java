@@ -365,7 +365,7 @@ public class View {
         selectionAction.getChildren().add(circleObjectif);
 
 
-        ImageView imageActionParcelle =new ImageView("image/parcelle.jpg");
+        ImageView imageActionParcelle =new ImageView("image/DosDeTuile.PNG");
         imageActionParcelle.setPreserveRatio(true);
         imageActionParcelle.setFitHeight(40);
         addInfo(imageActionParcelle, "Pioche 3 parcelles, en choisit une et la pose", x, y-20);

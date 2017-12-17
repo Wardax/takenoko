@@ -1,3 +1,4 @@
+/*
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,3 +45,4 @@ public class JoueurUnitTest {
         Assert.assertEquals(j.getNbObjectifsRealises(), 0);
     }
 }
+*/
