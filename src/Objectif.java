@@ -33,7 +33,8 @@ public class Objectif {
                 }
                 break;
             case 4:
-                if (j.getBambous()[0]>=1 && j.getBambous()[1]>=1 && j.getBambous()[2]>=1){
+                int[] b=j.getBambous();
+                if (b[0]>=1 && b[1]>=1 && b[2]>=1){
                     j.getBambous()[0]--;
                     j.getBambous()[1]--;
                     j.getBambous()[2]--;
@@ -260,22 +261,22 @@ public class Objectif {
         return 0;
     }
 
-    public boolean verifParcelle(Parcelle p, int col){
+    private boolean verifParcelle(Parcelle p, int col){
         return p!=null && p.isIrriguee() && p.getColor()==col;
     }
 
-    public boolean chercheBambou(int col, int am, Plateau plateau){
+    private boolean chercheBambou(int col, int am, Plateau plateau){
         for (Parcelle p : plateau.getParcelles()){
-            if (col==p.getColor() && am==p.getAmenagement() && 4 ==p.getNbBambou()){
+            if (col==p.getColor() && am==p.getAmenagement() && p.getNbBambou()==4){
                 return true;
             }
         }
         return false;
     }
-    public boolean cherchePlusieursBambou(int col, int nb, Plateau plateau){
+    private boolean cherchePlusieursBambou(int col, int nb, Plateau plateau){
         int n=0;
         for (Parcelle p : plateau.getParcelles()){
-            if (col==p.getColor() &&  3 ==p.getNbBambou()){
+            if (col==p.getColor() &&  p.getNbBambou()==3){
                 n+=1;
             }
         }

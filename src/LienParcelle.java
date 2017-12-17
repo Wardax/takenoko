@@ -21,6 +21,7 @@ public class LienParcelle {
     }
 
     public void initialisePos(){
+
         pos= new int[3];
         if (this==parcelleLie1.getLienParcelles()[0]){
             pos[0]=parcelleLie1.getPosX()+50+20;
@@ -39,7 +40,7 @@ public class LienParcelle {
         }
         else if (this==parcelleLie1.getLienParcelles()[3]){
             pos[0]=parcelleLie1.getPosX()+20;
-            pos[1]=parcelleLie1.getPosY()-10;
+            pos[1]=parcelleLie1.getPosY()+80-10;
             pos[2]=0;
         }
         else if (this==parcelleLie1.getLienParcelles()[4]){
@@ -49,7 +50,7 @@ public class LienParcelle {
         }
         else {
             pos[0]=parcelleLie1.getPosX()+20;
-            pos[1]=parcelleLie1.getPosY()+80-10;
+            pos[1]=parcelleLie1.getPosY()-10;
             pos[2]=2;
         }
     }

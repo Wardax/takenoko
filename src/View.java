@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -191,7 +189,7 @@ public class View {
 
 
     public void affichePosPossible(){
-        List<int[]> list=model.getPlateau().getPositionNouvellePartelle();
+        List<int[]> list=model.getPlateau().getPositionNouvelleParcelle();
         positionPossible=new Group();
         for (int[] l : list){
             Polygon polygon = new Polygon();

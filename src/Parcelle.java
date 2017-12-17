@@ -49,7 +49,7 @@ public class Parcelle {
     }
 
     public List<int[]> getPosParcelleVideAdjacente(){
-        List<int[]> listPosNewParc=new ArrayList<int[]>();
+        List<int[]> listPosNewParc= new ArrayList<>();
         LienParcelle[] l = lienParcelles;
         int [][] posAdj = getAdjacence();
         for (int i=0; i<6; i++){

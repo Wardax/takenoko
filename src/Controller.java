@@ -59,7 +59,10 @@ public class Controller {
                 j.setIrrigation(j.getIrrigation()+1);
                 j.getActions()[i]=0;
             }
-            if (j.getActions()[i]==3 && p.getParcelles().size()>1) view.ajouteBouttonJardinier();
+            if (j.getActions()[i]==3 && p.getParcelles().size()>1) {
+                view.ajouteBouttonJardinier();
+                action=true;
+            }
             if (j.getActions()[i]==4 && p.getParcelles().size()>1) view.ajouteBouttonPanda();
             if (j.getActions()[i]==5 ){
                 view.ajouteBouttonObjectifs();
@@ -69,9 +72,18 @@ public class Controller {
 
         if (j.getIrrigation()>0 && p.getPositionIrrigationPossible().size()>0) view.ajouteBouttonIrrigation();
 
-        if (j.getActions()[2] == 6 && p.getParcelles().size()>1) view.ajouteBouttonPluie();
-        if (j.getActions()[2] == 7 && p.getParcelles().size()>1) view.ajouteBouttonOrage();
-        if (j.getActions()[2] == 8 && p.getParcelles().size()>1) view.ajouteBouttonNuage();
+        if (j.getActions()[2] == 6 && p.getParcelles().size()>1){
+            view.ajouteBouttonPluie();
+            action=true;
+        }
+        if (j.getActions()[2] == 7 && p.getParcelles().size()>1) {
+            view.ajouteBouttonOrage();
+            action=true;
+        }
+        if (j.getActions()[2] == 8 && p.getParcellesSansAmenagement().size()>0) {
+            view.ajouteBouttonNuage();
+            action=true;
+        }
 
         if ((j.getActions()[0]==0 && j.getActions()[1]==0 && j.getActions()[2]==0) || !action) {
             activeBouttonFinDeTour();
@@ -437,7 +449,6 @@ public class Controller {
     private void nouvellePartie(){
         view.newPartie.setOnAction(event -> {
             Stage stage = (Stage) view.plateau.getScene().getWindow();
-            stage.close();
             RunPartie.newGame(stage, model.getNbJoueurs());
         });
     }

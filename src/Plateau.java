@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,10 +32,16 @@ public class Plateau {
         return lienParcelles;
     }
 
-    public List<int[]> getPositionNouvellePartelle(){
+    public List<int[]> getPositionNouvelleParcelle(){
         List<int[]> listPosNewParc= new ArrayList<>();
         for (Parcelle p : parcelles){
-            listPosNewParc.addAll(p.getPosParcelleVideAdjacente());
+            for (int[] pos : p.getPosParcelleVideAdjacente()){
+                boolean estDejaPresent=false;
+                for (int[] pnp : listPosNewParc){
+                    if (Arrays.equals(pos, pnp)) estDejaPresent=true;
+                }
+                if (!estDejaPresent) listPosNewParc.add(pos);
+            }
         }
         return listPosNewParc;
     }
@@ -44,6 +51,7 @@ public class Plateau {
         for (LienParcelle l : lienParcelles){
             int[] pos=l.getPosSiIrrigationPossible();
             if (pos!=null) listPosIrrigation.add(pos);
+
         }
         return listPosIrrigation;
     }
@@ -99,4 +107,5 @@ public class Plateau {
         }
         return list;
     }
+
 }
