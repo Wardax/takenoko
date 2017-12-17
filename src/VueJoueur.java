@@ -43,7 +43,7 @@ public class VueJoueur extends Group{
         imageViews[1]=new ImageView("image/bambouVert.PNG");
         imageViews[3]=new ImageView("image/bambouJaune.PNG");
         imageViews[2]=new ImageView("image/bambouRose.PNG");
-        imageViews[4]=new ImageView("image/objectifJardinier.PNG");
+        imageViews[4]=new ImageView("image/objectifJardinierValider.PNG");
         for (int i=0; i<imageViews.length; i++){
             imageViews[i].setPreserveRatio(true);
             imageViews[i].setFitHeight(30);
