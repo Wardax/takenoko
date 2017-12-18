@@ -64,6 +64,7 @@ public class View {
     public View(Model model) {
         this.model=model;
         creerSceneJeu();
+        skinNoel=false;
     }
 
     public View(){
@@ -72,7 +73,6 @@ public class View {
 
     private void creerSceneJeu(){
         plateau = new Group();
-        skinNoel=false;
 
         Etang e=model.getPlateau().getEtang();
         VueParcelle etang=new VueParcelle(e);
@@ -138,6 +138,7 @@ public class View {
 
         sceneJeu=new Scene(plateau,1200,700);
         creerSousMenu();
+        if (skinNoel)metSkinNoel();
 
     }
 
