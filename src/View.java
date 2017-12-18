@@ -75,11 +75,11 @@ public class View {
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
 
-        jardinier=new ImageView("image/Jardinier_V2.PNG");
+        jardinier=new ImageView("image/luttin_pereNoel_avec_sucreOrge.png");
         jardinier.setPreserveRatio(true);
         jardinier.setFitHeight(40);
         etang.addJardinier(jardinier);
-        panda=new ImageView("image/tetePanda.png");
+        panda=new ImageView("image/pandaNoel.png");
         etang.addPanda(panda);
 
         joueurActuel=new Text("C'est le tour du joueur n°"+(model.getJoueurActuel().getNumJoueur()+1));
@@ -375,12 +375,12 @@ public class View {
         imageActionIrrigation.setFitWidth(40);
         addInfo(imageActionIrrigation, "Ajoute une barre d'irrigation a votre réserve", x, y-20);
 
-        ImageView imageActionJardinier =new ImageView("image/Jardinier_V2.PNG");
+        ImageView imageActionJardinier =new ImageView("image/luttin_pereNoel_avec_sucreOrge.png");
         imageActionJardinier.setPreserveRatio(true);
         imageActionJardinier.setFitHeight(40);
         addInfo(imageActionJardinier, "Déplace le jardinier, et lui fait pousser des bambous", x, y-20);
 
-        ImageView imageActionPanda =new ImageView("image/bebepanda.png");
+        ImageView imageActionPanda =new ImageView("image/bebepandaNoelv2.png");
         imageActionPanda.setPreserveRatio(true);
         imageActionPanda.setFitHeight(40);
         addInfo(imageActionPanda, "Déplace le panda et le fait manger un bambou", x, y-20);
