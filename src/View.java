@@ -75,7 +75,7 @@ public class View {
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
 
-        jardinier=new ImageView("image/luttin_pereNoel_avec_sucreOrge.png");
+        jardinier=new ImageView("image/luttin_pereNoel_avec_sucreOrge.png ");
         jardinier.setPreserveRatio(true);
         jardinier.setFitHeight(40);
         etang.addJardinier(jardinier);
