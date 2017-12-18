@@ -42,6 +42,7 @@ public class Controller {
         actionQuitter();
         actionHelper();
         nouvellePartie();
+        actionChangerSkin();
     }
 
 
@@ -438,7 +439,7 @@ public class Controller {
 
     private void actionHelper(){
         view.helper.setOnAction(event -> {
-            String fichierAOuvrir =  System.getProperty("user.dir")+"/src/image/Takenoko_rules_FR.pdf";
+            String fichierAOuvrir =  "image/Takenoko_rules_FR.pdf";
             String navigateur = "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"";
             Runtime runtime = Runtime.getRuntime();
             try {
@@ -447,6 +448,13 @@ public class Controller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+    }
+
+    private void actionChangerSkin(){
+        view.changementSkin.setOnAction(event -> {
+            if (view.skinNoel) view.remetSkinBase();
+            else view.metSkinNoel();
         });
     }
 

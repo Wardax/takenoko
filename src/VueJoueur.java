@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -40,9 +41,9 @@ public class VueJoueur extends Group{
         imageViews=new ImageView[5];
 
         imageViews[0]=new ImageView("image/irrigation.png");
-        imageViews[1]=new ImageView("image/sucreOrge_Vert.PNG");
-        imageViews[3]=new ImageView("image/sucreOrge_JauneV2.png");
-        imageViews[2]=new ImageView("image/sucreOrge_Rouge.PNG");
+        imageViews[1]=new ImageView("image/bambouVert.PNG");
+        imageViews[2]=new ImageView("image/bambouRose.PNG");
+        imageViews[3]=new ImageView("image/bambouJaune.PNG");
         imageViews[4]=new ImageView("image/objectifJardinierValider.PNG");
         for (int i=0; i<imageViews.length; i++){
             imageViews[i].setPreserveRatio(true);
@@ -117,7 +118,16 @@ public class VueJoueur extends Group{
     }
 
 
-
-
-
+    public void actualiseSkin(boolean skinNoel) {
+        if (skinNoel){
+            imageViews[1].setImage(new Image("image/sucreOrge_Vert.PNG"));
+            imageViews[2].setImage(new Image("image/sucreOrge_Rouge.PNG"));
+            imageViews[3].setImage(new Image("image/sucreOrge_JauneV2.png"));
+        }
+        else {
+            imageViews[1].setImage(new Image("image/bambouVert.PNG"));
+            imageViews[2].setImage(new Image("image/bambouRose.PNG"));
+            imageViews[3].setImage(new Image("image/bambouJaune.PNG"));
+        }
+    }
 }

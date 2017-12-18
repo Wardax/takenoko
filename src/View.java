@@ -23,6 +23,7 @@ public class View {
     private Model model;
     private Scene sceneJeu;
     private Scene sceneMenu;
+    private ImageView imageFond;
     private ImageView jardinier;
     private ImageView panda;
 
@@ -52,6 +53,8 @@ public class View {
     Group menu;
     MenuBar barreMenu;
     Menu options;
+    MenuItem changementSkin;
+    boolean skinNoel;
     MenuItem newPartie;
     MenuItem helper;
     MenuItem quitter;
@@ -69,17 +72,18 @@ public class View {
 
     private void creerSceneJeu(){
         plateau = new Group();
+        skinNoel=false;
 
         Etang e=model.getPlateau().getEtang();
         VueParcelle etang=new VueParcelle(e);
         etang.getChildren().remove(etang.getNombreBambou());
         plateau.getChildren().add(etang);
 
-        jardinier=new ImageView("image/luttin_pereNoel_avec_sucreOrge.png");
+        jardinier=new ImageView("image/Jardinier_V2.PNG");
         jardinier.setPreserveRatio(true);
         jardinier.setFitHeight(40);
         etang.addJardinier(jardinier);
-        panda=new ImageView("image/pandaNoel.png");
+        panda=new ImageView("image/tetePanda.png");
         etang.addPanda(panda);
 
         joueurActuel=new Text("C'est le tour du joueur n°"+(model.getJoueurActuel().getNumJoueur()+1));
@@ -125,12 +129,12 @@ public class View {
         afficheObjectifs();
 
 
-        ImageView imageFond=new ImageView("image/fond.jpg");
+        imageFond=new ImageView("image/fond.jpg");
         imageFond.setFitHeight(700);
         imageFond.setFitWidth(1200);
         plateau.getChildren().add(imageFond);
         imageFond.toBack();
-        imageFond.setOpacity(0.4);
+        imageFond.setOpacity(0.6);
 
         sceneJeu=new Scene(plateau,1200,700);
         creerSousMenu();
@@ -375,12 +379,12 @@ public class View {
         imageActionIrrigation.setFitWidth(40);
         addInfo(imageActionIrrigation, "Ajoute une barre d'irrigation a votre réserve", x, y-20);
 
-        ImageView imageActionJardinier =new ImageView("image/luttin_pereNoel_avec_sucreOrge.png");
+        ImageView imageActionJardinier =new ImageView("image/Jardinier_V2.PNG");
         imageActionJardinier.setPreserveRatio(true);
         imageActionJardinier.setFitHeight(40);
         addInfo(imageActionJardinier, "Déplace le jardinier, et lui fait pousser des bambous", x, y-20);
 
-        ImageView imageActionPanda =new ImageView("image/bebepandaNoelv2.png");
+        ImageView imageActionPanda =new ImageView("image/bebepanda.png");
         imageActionPanda.setPreserveRatio(true);
         imageActionPanda.setFitHeight(40);
         addInfo(imageActionPanda, "Déplace le panda et le fait manger un bambou", x, y-20);
@@ -421,11 +425,12 @@ public class View {
 
         options = new Menu("Options");
         newPartie = new MenuItem("Nouvelle Partie");
+        changementSkin = new MenuItem("Changer de skin");
         helper = new MenuItem("Règles");
         quitter = new MenuItem("Quitter");
 
 
-        options.getItems().addAll(newPartie, new SeparatorMenuItem(), helper, new SeparatorMenuItem(), quitter);
+        options.getItems().addAll(newPartie, new SeparatorMenuItem(), changementSkin, new SeparatorMenuItem(), helper, new SeparatorMenuItem(), quitter);
         barreMenu.getMenus().addAll(options);
 
         sousMenu.getChildren().add(barreMenu);
@@ -580,5 +585,29 @@ public class View {
             }
         }
         return list;
+    }
+
+    public void metSkinNoel() {
+        skinNoel=true;
+        for (VueJoueur vj : vueJoueurs){
+            vj.actualiseSkin(skinNoel);
+        }
+        panda.setImage(new Image("image/pandaNoel.png"));
+        jardinier.setImage(new Image("image/luttin_pereNoel_avec_sucreOrge.png"));
+        ((ImageView)selectionAction.getChildren().get(9)).setImage(new Image("image/luttin_pereNoel_avec_sucreOrge.png"));
+        ((ImageView)selectionAction.getChildren().get(10)).setImage(new Image("image/bebepandaNoelv2.png"));
+        imageFond.setImage(new Image("image/fond_hiver1.jpg"));
+    }
+
+    public void remetSkinBase() {
+        skinNoel=false;
+        for (VueJoueur vj : vueJoueurs){
+            vj.actualiseSkin(skinNoel);
+        }
+        panda.setImage(new Image("image/tetePanda.png"));
+        jardinier.setImage(new Image("image/Jardinier_V2.PNG"));
+        ((ImageView)selectionAction.getChildren().get(9)).setImage(new Image("image/Jardinier_V2.PNG"));
+        ((ImageView)selectionAction.getChildren().get(10)).setImage(new Image("image/bebepanda.png"));
+        imageFond.setImage(new Image("image/fond.jpg"));
     }
 }
