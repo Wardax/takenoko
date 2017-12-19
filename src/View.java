@@ -65,7 +65,6 @@ public class View {
         this.model=model;
         creerSceneJeu();
         skinNoel=false;
-        afficheGagnant();
     }
 
     public View(){
