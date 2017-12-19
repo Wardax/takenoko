@@ -134,7 +134,7 @@ public class View {
         imageFond.setFitWidth(1200);
         plateau.getChildren().add(imageFond);
         imageFond.toBack();
-        imageFond.setOpacity(0.6);
+        imageFond.setOpacity(0.4);
 
         sceneJeu=new Scene(plateau,1200,700);
         creerSousMenu();
@@ -598,6 +598,7 @@ public class View {
         ((ImageView)selectionAction.getChildren().get(9)).setImage(new Image("image/luttin_pereNoel_avec_sucreOrge.png"));
         ((ImageView)selectionAction.getChildren().get(10)).setImage(new Image("image/bebepandaNoelv2.png"));
         imageFond.setImage(new Image("image/fond_hiver1.jpg"));
+        imageFond.setOpacity(0.6);
     }
 
     public void remetSkinBase() {
@@ -610,5 +611,6 @@ public class View {
         ((ImageView)selectionAction.getChildren().get(9)).setImage(new Image("image/Jardinier_V2.PNG"));
         ((ImageView)selectionAction.getChildren().get(10)).setImage(new Image("image/bebepanda.png"));
         imageFond.setImage(new Image("image/fond.jpg"));
+        imageFond.setOpacity(0.4);
     }
 }
