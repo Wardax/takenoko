@@ -439,7 +439,7 @@ public class Controller {
 
     private void actionHelper(){
         view.helper.setOnAction(event -> {
-            String fichierAOuvrir =  "image/Takenoko_rules_FR.pdf";
+            String fichierAOuvrir =  System.getProperty("user.dir")+"/src/image/Takenoko_rules_FR.pdf";
             String navigateur = "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"";
             Runtime runtime = Runtime.getRuntime();
             try {
