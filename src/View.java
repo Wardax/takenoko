@@ -65,6 +65,7 @@ public class View {
         this.model=model;
         creerSceneJeu();
         skinNoel=false;
+        afficheGagnant();
     }
 
     public View(){
@@ -147,6 +148,7 @@ public class View {
 
     private void creerScene() {
         menu=new Group();
+
 
         ImageView menuFond = new ImageView("/image/menu.jpg");
         menuFond.setFitHeight(500);
@@ -547,12 +549,15 @@ public class View {
 
     public void afficheGagnant() {
         Stage stage = new Stage();
-        Label modalityLabel = new Label("Partie terminé! Le joueur n°"+(model.getJoueurGagnant()+1)+" a gagné !");
+        Label gagnant = new Label("Le joueur n°"+(model.getJoueurGagnant()+1)+" a gagné !");
+        gagnant.relocate(80,20);
         Button closeButton = new Button("Fermer");
+        ImageView gifPanda=new ImageView("image/panda.gif");
+        closeButton.relocate(110,50);
         closeButton.setOnAction(e -> stage.close());
-        VBox root = new VBox();
-        root.getChildren().addAll(modalityLabel, closeButton);
-        Scene scene = new Scene(root, 300, 70);
+        Group root = new Group();
+        root.getChildren().addAll(gagnant, closeButton, gifPanda);
+        Scene scene = new Scene(root, 230, 100);
         stage.setScene(scene);
         stage.show();
         for (Node n:selectionAction.getChildren()){
