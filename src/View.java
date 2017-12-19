@@ -110,6 +110,9 @@ public class View {
         bOrage.relocate(0,400);
 
 
+        Rectangle separateur=new Rectangle(3,700, Color.DARKBLUE);
+        plateau.getChildren().add(separateur);
+        separateur.relocate(880,0);
         bVerifObjectifs=new Button("Verification des objectifs");
         bVerifObjectifs.relocate(920, 650);
         plateau.getChildren().add(bVerifObjectifs);
